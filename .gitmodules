@@ -1,0 +1,3 @@
+[submodule "Pathfinding/vendor/GLFW-3.3.8"]
+	path = Pathfinding/vendor/GLFW-3.3.8
+	url = https://github.com/TheCherno/GLFW
