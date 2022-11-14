@@ -17,7 +17,8 @@ public:
 	~VertexArray();
 
 	// Links a VBO to the VAO using a certain layout
-	void LinkVertexBuffer(VertexBuffer& vbo, GLuint layout, GLuint size, GLsizei stride);
+	template<typename T>
+	void LinkVertexBuffer(VertexBuffer<T>& vbo, GLuint layout, GLuint size, GLsizei stride);
 	// Binds the VAO
 	void Bind();
 	// Unbinds the VAO

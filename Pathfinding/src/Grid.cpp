@@ -128,22 +128,22 @@ VertexArray Grid::GenerateGrid(glm::vec3 squareColors)
 	vao.Bind();
 
 	// Generates Vertex Buffer Object and links it to vertices
-	VertexBuffer vbo(vertices, sizeof(vertices));
+	VertexBuffer<glm::vec2> vbo(vertices, sizeof(vertices));
 
 	// Links VBO to VAO
-	vao.LinkVertexBuffer(vbo, 0, 2, 0);
+	vao.LinkVertexBuffer<glm::vec2>(vbo, 0, 2, 0);
 
 	glm::vec2* offsets = GenerateOffsetArray(vertices);
 
 	GenerateColorsArray(glm::vec3(0.4, 0.2, 0.4));
 
-	VertexBuffer offsetBuffer(offsets, TotalSquares * sizeof(glm::vec2));
+	VertexBuffer<glm::vec2> offsetBuffer(offsets, TotalSquares * sizeof(glm::vec2));
 
-	vao.LinkVertexBuffer(offsetBuffer, 1, 2, 0);//size = how many dimension we have && stride = data slices
+	vao.LinkVertexBuffer<glm::vec2>(offsetBuffer, 1, 2, 0);//size = how many dimension we have && stride = data slices
 	glVertexAttribDivisor(1, 1);
 
-	ColorBuffer = new VertexBuffer(SquareColors, TotalSquares * sizeof(glm::vec3));
-	vao.LinkVertexBuffer(*ColorBuffer, 2, 3, 0);//size = how many dimension we have && stride = data slices
+	ColorBuffer = new VertexBuffer<glm::vec3>(SquareColors, TotalSquares * sizeof(glm::vec3));
+	vao.LinkVertexBuffer<glm::vec3>(*ColorBuffer, 2, 3, 0);//size = how many dimension we have && stride = data slices
 	glVertexAttribDivisor(2, 1);
 
 	// Generates Index Buffer Object and links it to indices

@@ -4,6 +4,15 @@
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Mono">
+      <UniqueIdentifier>{F54E22CF-E11B-7DDA-0A35-6B82F660B268}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\OpenGL">
+      <UniqueIdentifier>{C15FA925-AD17-EB72-161F-C4CE02F68563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\OpenGL\Shaders">
+      <UniqueIdentifier>{9AB54D0D-8699-0E63-EFF9-08B6DBFCF8E4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -18,12 +27,27 @@
     <ClInclude Include="src\GLFWSteps.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Grid.h" />
-    <ClInclude Include="src\OpenGL\Shaders\Shaders.h" />
-    <ClInclude Include="src\OpenGL\GLErrorCheck.h" />
-    <ClInclude Include="src\OpenGL\IndexBuffer.h" />
-    <ClInclude Include="src\OpenGL\VertexArray.h" />
-    <ClInclude Include="src\OpenGL\VertexBuffer.h" />
+    <ClInclude Include="src\Grid.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mono\Mono.h">
+      <Filter>src\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGL\GLErrorCheck.h">
+      <Filter>src\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGL\IndexBuffer.h">
+      <Filter>src\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGL\Shaders\Shaders.h">
+      <Filter>src\OpenGL\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGL\VertexArray.h">
+      <Filter>src\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGL\VertexBuffer.h">
+      <Filter>src\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entry.cpp">
@@ -32,17 +56,29 @@
     <ClCompile Include="src\GLFWSteps.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Grid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mono\Mono.cpp">
+      <Filter>src\Mono</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGL\GLErrorCheck.cpp">
+      <Filter>src\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGL\IndexBuffer.cpp">
+      <Filter>src\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGL\Shaders\Shaders.cpp">
+      <Filter>src\OpenGL\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGL\VertexArray.cpp">
+      <Filter>src\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGL\VertexBuffer.cpp">
+      <Filter>src\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="vendor\GLAD-2.0\src\glad.c">
       <Filter>vendor\GLAD-2.0\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Grid.cpp" />
-    <ClCompile Include="src\OpenGL\Shaders\Shaders.cpp" />
-    <ClCompile Include="src\OpenGL\GLErrorCheck.cpp" />
-    <ClCompile Include="src\OpenGL\IndexBuffer.cpp" />
-    <ClCompile Include="src\OpenGL\VertexArray.cpp" />
-    <ClCompile Include="src\OpenGL\VertexBuffer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\OpenGL\Shaders\Squares.glsl" />
   </ItemGroup>
 </Project>

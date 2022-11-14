@@ -19,7 +19,7 @@ private:
 	SquareBounds* SquareLocations;
 	//Every square's color
 	glm::vec3* SquareColors;
-	VertexBuffer* ColorBuffer;
+	VertexBuffer<glm::vec3>* ColorBuffer;
 	//Amount of squares in a row
 	int SquareCountPerRow;
 	//Normalized square width and height in float

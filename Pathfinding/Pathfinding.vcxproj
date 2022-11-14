@@ -78,7 +78,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\GLM-0.9.9.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\GLM-0.9.9.8\include;vendor\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -87,16 +87,19 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\GLFW-3.3.8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\GLFW-3.3.8\lib;vendor\mono\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Pathfinding\vendor\mono\bin\mono-2.0-sgen.dll" "$(TargetDir)" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\GLM-0.9.9.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\GLM-0.9.9.8\include;vendor\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -105,16 +108,19 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\GLFW-3.3.8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\GLFW-3.3.8\lib;vendor\mono\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Pathfinding\vendor\mono\bin\mono-2.0-sgen.dll" "$(TargetDir)" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\GLM-0.9.9.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\GLM-0.9.9.8\include;vendor\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -123,33 +129,35 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\GLFW-3.3.8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\GLFW-3.3.8\lib;vendor\mono\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Pathfinding\vendor\mono\bin\mono-2.0-sgen.dll" "$(TargetDir)" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GLFWSteps.h" />
     <ClInclude Include="src\Grid.h" />
-    <ClInclude Include="src\OpenGL\Shaders\Shaders.h" />
+    <ClInclude Include="src\Mono\Mono.h" />
     <ClInclude Include="src\OpenGL\GLErrorCheck.h" />
     <ClInclude Include="src\OpenGL\IndexBuffer.h" />
-    <ClInclude Include="src\GLFWSteps.h" />
+    <ClInclude Include="src\OpenGL\Shaders\Shaders.h" />
     <ClInclude Include="src\OpenGL\VertexArray.h" />
     <ClInclude Include="src\OpenGL\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Grid.cpp" />
-    <ClCompile Include="src\OpenGL\Shaders\Shaders.cpp" />
-    <ClCompile Include="src\OpenGL\GLErrorCheck.cpp" />
-    <ClCompile Include="src\OpenGL\IndexBuffer.cpp" />
     <ClCompile Include="src\Entry.cpp" />
     <ClCompile Include="src\GLFWSteps.cpp" />
-    <ClCompile Include="vendor\GLAD-2.0\src\glad.c" />
+    <ClCompile Include="src\Grid.cpp" />
+    <ClCompile Include="src\Mono\Mono.cpp" />
+    <ClCompile Include="src\OpenGL\GLErrorCheck.cpp" />
+    <ClCompile Include="src\OpenGL\IndexBuffer.cpp" />
+    <ClCompile Include="src\OpenGL\Shaders\Shaders.cpp" />
     <ClCompile Include="src\OpenGL\VertexArray.cpp" />
     <ClCompile Include="src\OpenGL\VertexBuffer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\OpenGL\Shaders\Squares.glsl" />
+    <ClCompile Include="vendor\GLAD-2.0\src\glad.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
