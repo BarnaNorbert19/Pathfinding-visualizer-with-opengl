@@ -1,8 +1,8 @@
-﻿using Pathfinding;
+﻿using PathfindingAlgorithms.Algorithms.Model;
+using PathfindingAlgorithms.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,10 +11,10 @@ namespace Pathfinding.Dijkstra
 {
     public class Dijkstra : PathfindingBase
     {
-        public override IEnumerable<INode>? UnvisitedNodes { get; set; }
-        public override IEnumerable<INode>? VisitedNodes { get; set; }
+        public override IEnumerable<INode> UnvisitedNodes { get; set; }
+        public override IEnumerable<INode> VisitedNodes { get; set; }
 
-        public async override Task<IEnumerable<INode>?> FindPathDiagonal(Stopwatch timer, GridInfo meshInfo, Ref<int> delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public async override Task<IEnumerable<INode>> FindPathDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
         {
             timer.Start();
 
@@ -26,11 +26,9 @@ namespace Pathfinding.Dijkstra
 
             while (unvisited.Count > 0)
             {
-                DijkstraNode cur_node = unvisited[^1];
+                DijkstraNode cur_node = unvisited[unvisited.Count - 1];
                 unvisited.Remove(cur_node);
-                List<DijkstraNode> neighbours;
-
-                neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End);
+                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<DijkstraNode>();
 
                 foreach (var node in neighbours)
                 {
@@ -41,7 +39,7 @@ namespace Pathfinding.Dijkstra
                         continue;
 
                     var targetNode = visited.FirstOrDefault(s => s.Coord == node.Coord);
-                    if (targetNode is not null)
+                    if (!(targetNode is null))
                     {
                         if (cur_node.ParentNode.G > targetNode.G)
                         {
@@ -81,7 +79,7 @@ namespace Pathfinding.Dijkstra
             return null;
         }
 
-        public async override Task<IEnumerable<INode>?> FindPathNoDiagonal(Stopwatch timer, GridInfo meshInfo, Ref<int> delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public async override Task<IEnumerable<INode>> FindPathNoDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
         {
             timer.Start();
             var visited = new List<DijkstraNode>();
@@ -92,11 +90,9 @@ namespace Pathfinding.Dijkstra
 
             while (unvisited.Count > 0)
             {
-                DijkstraNode cur_node = unvisited[^1];
+                DijkstraNode cur_node = unvisited[unvisited.Count - 1];
                 unvisited.Remove(cur_node);
-                List<DijkstraNode> neighbours;
-
-                neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End);
+                var neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<DijkstraNode>();
 
                 foreach (var node in neighbours)
                 {
@@ -107,7 +103,7 @@ namespace Pathfinding.Dijkstra
                         continue;
 
                     var targetNode = visited.FirstOrDefault(s => s.Coord == node.Coord);
-                    if (targetNode is not null)
+                    if (!(targetNode is null))
                     {
                         if (cur_node.ParentNode.G > targetNode.G)
                         {
@@ -144,9 +140,9 @@ namespace Pathfinding.Dijkstra
             return null;
         }
 
-        protected override List<DijkstraNode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, Point end)
+        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end)
         {
-            List<DijkstraNode> result = new();
+            List<DijkstraNode> result = new List<DijkstraNode>();
             //Define grid bounds
             int rowMinimum = mainNode.Coord.X - 1 < 0 ? mainNode.Coord.X : mainNode.Coord.X - 1;
             int rowMaximum = mainNode.Coord.X + 1 > horizontallenght ? mainNode.Coord.X : mainNode.Coord.X + 1;
@@ -156,16 +152,16 @@ namespace Pathfinding.Dijkstra
             for (int i = rowMinimum; i <= rowMaximum; i++)
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                 {
-                    Point cur_point = new(i, j);
-                    if ((i != mainNode.Coord.X || j != mainNode.Coord.Y) && (mainNode.Coord.X == cur_point.X || mainNode.Coord.Y == cur_point.Y))
-                        result.Add(new DijkstraNode(cur_point, mainNode, Distance(cur_point, mainNode.Coord) + mainNode.G));
+                    var curPoint = new Vectors.Vector2(i, j);
+                    if ((i != mainNode.Coord.X || j != mainNode.Coord.Y) && (mainNode.Coord.X == curPoint.X || mainNode.Coord.Y == curPoint.Y))
+                        result.Add(new DijkstraNode(curPoint, mainNode, Distance(curPoint, mainNode.Coord) + mainNode.G));
                 }
             return result;
         }
 
-        protected override List<DijkstraNode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, Point end)
+        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end)
         {
-            List<DijkstraNode> result = new();
+            List<DijkstraNode> result = new List<DijkstraNode>();
             //Define grid bounds
             int rowMinimum = mainNode.Coord.X - 1 < 0 ? mainNode.Coord.X : mainNode.Coord.X - 1;
             int rowMaximum = mainNode.Coord.X + 1 > horizontallenght ? mainNode.Coord.X : mainNode.Coord.X + 1;
@@ -176,7 +172,7 @@ namespace Pathfinding.Dijkstra
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                     if (i != mainNode.Coord.X || j != mainNode.Coord.Y)
                     {
-                        Point cur_point = new(i, j);
+                        var cur_point = new Vectors.Vector2(i, j);
                         result.Add(new DijkstraNode(cur_point, mainNode, Distance(cur_point, mainNode.Coord) + mainNode.G));
                     }
             return result;

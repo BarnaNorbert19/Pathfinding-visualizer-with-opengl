@@ -18,8 +18,8 @@ namespace Pathfinding
 
         public abstract Task<IEnumerable<INode>> FindPathDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken);
         public abstract Task<IEnumerable<INode>> FindPathNoDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken);
-        protected abstract IEnumerable GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end);
-        protected abstract IEnumerable GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end);
+        protected abstract IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end);
+        protected abstract IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end);
         protected static IEnumerable<INode> CalculatePath(INode endNode)
         {
             List<INode> path = new List<INode>()

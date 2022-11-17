@@ -34,7 +34,7 @@ namespace Pathfinding.BreadthFirst
                     return CalculatePath(cur_node);
                 }
 
-                List<BFSNode> neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End);
+                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<BFSNode>();
 
                 foreach (var node in neighbours)
                 {
@@ -85,7 +85,7 @@ namespace Pathfinding.BreadthFirst
                     return CalculatePath(cur_node);
                 }
 
-                List<BFSNode> neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End);
+                var neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<BFSNode>();
 
                 foreach (var node in neighbours)
                 {
@@ -117,7 +117,7 @@ namespace Pathfinding.BreadthFirst
             return null;
         }
 
-        protected override List<BFSNode> GetNeighbours(int horizontallenght, int verticallenght, INode main_node, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode main_node, ICoordinate end)
         {
             List<BFSNode> result = new List<BFSNode>();
             //Define grid bounds
@@ -129,14 +129,14 @@ namespace Pathfinding.BreadthFirst
             for (int i = rowMinimum; i <= rowMaximum; i++)
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                 {
-                    ICoordinate cur_point = new ICoordinate(i, j);
+                    ICoordinate cur_point = new Vectors.Vector2(i, j);
                     if ((i != main_node.Coord.X || j != main_node.Coord.Y) && (main_node.Coord.X == cur_point.X || main_node.Coord.Y == cur_point.Y))
                         result.Add(new BFSNode(cur_point, main_node));
                 }
             return result;
         }
 
-        protected override List<BFSNode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode main_node, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode main_node, ICoordinate end)
         {
             List<BFSNode> result = new List<BFSNode>();
             //Define grid bounds

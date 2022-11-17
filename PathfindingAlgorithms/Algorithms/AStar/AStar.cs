@@ -39,9 +39,7 @@ namespace Pathfinding.AStar
                 unvisited.Remove(cur_node);
                 visited.Add(cur_node);
 
-                List<AStarNode> neighbours;
-
-                neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End);
+                var neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<AStarNode>();
 
                 foreach (AStarNode neighbourNode in neighbours)
                 {
@@ -99,9 +97,7 @@ namespace Pathfinding.AStar
                 unvisited.Remove(cur_node);
                 visited.Add(cur_node);
 
-                List<AStarNode> neighbours;
-
-                neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End);
+                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<AStarNode>();
 
                 foreach (AStarNode neighbourNode in neighbours)
                 {
@@ -129,7 +125,7 @@ namespace Pathfinding.AStar
 
         protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end)
         {
-            IEnumerable<INode> result = new List<INode>();
+            List<AStarNode> result = new List<AStarNode>();
 
             //Define grid bounds
             int rowMinimum = mainNode.Coord.X - 1 < 0 ? mainNode.Coord.X : mainNode.Coord.X - 1;
@@ -141,14 +137,14 @@ namespace Pathfinding.AStar
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                     if (i != mainNode.Coord.X || j != mainNode.Coord.Y)
                     {
-                        ICoordinate cur_point = new Vectors.Vector2(i, j);
-                        result.Append(new AStarNode(cur_point, Distance(cur_point, end), Distance(cur_point, mainNode.Coord) + mainNode.G, mainNode));
+                        var cur_point = new Vectors.Vector2(i, j);
+                        result.Add(new AStarNode(cur_point, Distance(cur_point, end), Distance(cur_point, mainNode.Coord) + mainNode.G, mainNode));
                     }
 
             return result;
         }
 
-        protected override List<AStarNode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end)
         {
             List<AStarNode> result = new List<AStarNode>();
 
@@ -161,7 +157,7 @@ namespace Pathfinding.AStar
             for (int i = rowMinimum; i <= rowMaximum; i++)
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                 {
-                    Point cur_point = new(i, j);
+                    var cur_point = new Vectors.Vector2(i, j);
                     if ((i != mainNode.Coord.X || j != mainNode.Coord.Y) && (mainNode.Coord.X == cur_point.X || mainNode.Coord.Y == cur_point.Y))
                         result.Add(new AStarNode(cur_point, Distance(cur_point, end), Distance(cur_point, mainNode.Coord) + mainNode.G, mainNode));
                 }
