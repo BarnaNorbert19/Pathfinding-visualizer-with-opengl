@@ -2,7 +2,7 @@
 
 
 
-void Grid::SaveSquareLocations(glm::vec2* original, glm::vec2* offsets)
+void Grid::SaveSquareLocations(Vectors::Vector2* original, Vectors::Vector2* offsets)
 {
 	SquareLocations = new SquareBounds[TotalSquares];
 
@@ -31,29 +31,29 @@ Grid::~Grid()
 	delete ColorBuffer;
 }
 
-void Grid::GenerateBaseSquareArray(glm::vec2(&squares)[4], float spacing)
+void Grid::GenerateBaseSquareArray(Vectors::Vector2(&squares)[4], float spacing)
 {
 	const float x = -1.0f + NormalizedUnit;
 	const float y = 1.0f - NormalizedUnit;
 
-	squares[0] = glm::vec2(-1.0f + spacing, 1.0f - spacing);
-	squares[1] = glm::vec2(-1.0f + spacing, y);
-	squares[2] = glm::vec2(x, y);
-	squares[3] = glm::vec2(x, 1.0f - spacing);
+	squares[0] = Vectors::Vector2(-1.0f + spacing, 1.0f - spacing);
+	squares[1] = Vectors::Vector2(-1.0f + spacing, y);
+	squares[2] = Vectors::Vector2(x, y);
+	squares[3] = Vectors::Vector2(x, 1.0f - spacing);
 }
 
-glm::vec2* Grid::GenerateOffsetArray(glm::vec2* baseSquare)
+Vectors::Vector2* Grid::GenerateOffsetArray(Vectors::Vector2* baseSquare)
 {
-	glm::vec2* squares = new glm::vec2[TotalSquares];
-	glm::vec2 temp = glm::vec2(0.0f, 0.0f);
+	Vectors::Vector2* squares = new Vectors::Vector2[TotalSquares];
+	Vectors::Vector2 temp = Vectors::Vector2(0.0f, 0.0f);
 	squares[0] = temp;
 
 	for (int i = 1; i < (TotalSquares); i++)
 	{
 		if (i % SquareCountPerRow == 0)
 		{
-			temp.y -= NormalizedUnit;
-			temp.x = 0.0f;
+			temp.Y -= NormalizedUnit;
+			temp.X = 0.0f;
 
 			squares[i] = temp;
 		}
@@ -61,7 +61,7 @@ glm::vec2* Grid::GenerateOffsetArray(glm::vec2* baseSquare)
 		else
 		{
 
-			temp.x += NormalizedUnit;
+			temp.X += NormalizedUnit;
 			squares[i] = temp;
 		}
 	}
@@ -71,9 +71,9 @@ glm::vec2* Grid::GenerateOffsetArray(glm::vec2* baseSquare)
 	return squares;
 }
 
-void Grid::GenerateColorsArray(glm::vec3 color)
+void Grid::GenerateColorsArray(Vector3 color)
 {
-	SquareColors = new glm::vec3[TotalSquares];
+	SquareColors = new Vector3[TotalSquares];
 
 	for (int i = 0; i < TotalSquares; i++)
 	{
@@ -85,8 +85,8 @@ int Grid::GetSquareByPosition(double mouseX, double mouseY)
 {
 	for (int i = 0; i < TotalSquares; i++)
 	{
-		if (SquareLocations[i].Pos1.x <= mouseX && SquareLocations[i].Pos2.x >= mouseX
-			&& SquareLocations[i].Pos1.y >= mouseY && SquareLocations[i].Pos2.y <= mouseY)
+		if (SquareLocations[i].Pos1.X <= mouseX && SquareLocations[i].Pos2.X >= mouseX
+			&& SquareLocations[i].Pos1.Y >= mouseY && SquareLocations[i].Pos2.Y <= mouseY)
 		{
 			return i;
 		}
@@ -95,9 +95,9 @@ int Grid::GetSquareByPosition(double mouseX, double mouseY)
 	return -1;
 }
 
-VertexArray Grid::GenerateGrid(glm::vec3 squareColors)
+VertexArray Grid::GenerateGrid(Vectors::Vector3 squareColors)
 {
-	glm::vec2 vertices[4];
+	Vectors::Vector2 vertices[4];
 	GenerateBaseSquareArray(vertices);
 
 	GLuint indices[] =
@@ -114,16 +114,16 @@ VertexArray Grid::GenerateGrid(glm::vec3 squareColors)
 	// Links VBO to VAO
 	vao.LinkVertexBuffer(vbo, 0, 2, 0);
 
-	glm::vec2* offsets = GenerateOffsetArray(vertices);
+	Vectors::Vector2* offsets = GenerateOffsetArray(vertices);
 
-	GenerateColorsArray(glm::vec3(0.4, 0.2, 0.4));
+	GenerateColorsArray(Vector3(0.4, 0.2, 0.4));
 
-	VertexBuffer offsetBuffer(offsets, TotalSquares * sizeof(glm::vec2));
+	VertexBuffer offsetBuffer(offsets, TotalSquares * sizeof(Vectors::Vector2));
 
 	vao.LinkVertexBuffer(offsetBuffer, 1, 2, 0);//size = how many dimension we have && stride = data slices
 	glVertexAttribDivisor(1, 1);
 
-	ColorBuffer = new VertexBuffer(SquareColors, TotalSquares * sizeof(glm::vec3));
+	ColorBuffer = new VertexBuffer(SquareColors, TotalSquares * sizeof(Vector3));
 	vao.LinkVertexBuffer(*ColorBuffer, 2, 3, 0);//size = how many dimension we have && stride = data slices
 	glVertexAttribDivisor(2, 1);
 
@@ -146,12 +146,12 @@ VertexArray Grid::GenerateGrid(glm::vec3 squareColors)
 	return vao;
 }
 
-void Grid::ChangeSquareColor(int square, glm::vec3 color)
+void Grid::ChangeSquareColor(int square, Vector3 color)
 {
 	if (square >= 0)//prevent heap overflow, sometimes picks up value -1
 	{
 		SquareColors[square] = color;
-		ColorBuffer->ChangeData(SquareColors, TotalSquares * sizeof(glm::vec3));
+		ColorBuffer->ChangeData(SquareColors, TotalSquares * sizeof(Vectors::Vector3));
 	}
 }
 

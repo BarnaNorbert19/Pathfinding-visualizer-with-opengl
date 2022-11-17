@@ -54,6 +54,7 @@
     <ClInclude Include="src\OpenGL\VertexBuffer.h">
       <Filter>src\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mono\CommonData\Vectors.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entry.cpp">
@@ -89,5 +90,6 @@
     <ClCompile Include="vendor\GLAD-2.0\src\glad.c">
       <Filter>vendor\GLAD-2.0\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mono\CommonData\Vectors.cpp" />
   </ItemGroup>
 </Project>

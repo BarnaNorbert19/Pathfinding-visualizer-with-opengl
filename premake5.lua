@@ -33,7 +33,6 @@ project "Pathfinding"
     {
         "%{prj.name}/vendor/GLFW-3.3.8/include",
         "%{prj.name}/vendor/GLAD-2.0/include",
-        "%{prj.name}/vendor/GLM-0.9.9.8/include",
         "%{prj.name}/vendor/mono/include"
     }
     

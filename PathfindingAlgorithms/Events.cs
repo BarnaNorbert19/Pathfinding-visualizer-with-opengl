@@ -1,12 +1,30 @@
-﻿using static PathfindingAlgorithms.CommonDataStructs.Vectors;
+﻿using Pathfinding;
+using static PathfindingAlgorithms.CommonData.Vectors;
 
 namespace PathfindingAlgorithms
 {
     public class Events
     {
-        public void OnSquareClicked()
+        public static int ClickCount { get; private set; }
+        private static GridInfo _gridInfo;
+
+        public void OnSquareClicked(Vector2 square)
         {
-            var blue = new Vector3() { Pos1 = 0.5f, Pos2 = 0.1f, Pos3 = 0.9f };
+            if (ClickCount == 0)
+            {
+                _gridInfo.Start = square;
+                ClickCount++;
+                return;
+            }
+
+            else if (ClickCount == 1)
+            {
+                _gridInfo.End = square;
+                ClickCount++;
+                return;
+            }
+
+            ClickCount = 0;
         }
     }
 }

@@ -7,6 +7,7 @@ char* Mono::ReadBytes(const std::string& filepath, uint32_t* outSize)
 	if (!stream)
 	{
 		// Failed to open the file
+		std::cout << "Error ! File not found file: " << filepath << std::endl;
 		return nullptr;
 	}
 
@@ -17,6 +18,7 @@ char* Mono::ReadBytes(const std::string& filepath, uint32_t* outSize)
 	if (size == 0)
 	{
 		// File is empty
+		std::cout << "Error ! File is empty: " << filepath << std::endl;
 		return nullptr;
 	}
 
@@ -74,7 +76,7 @@ MonoAssembly* Mono::LoadCSharpAssembly(const std::string& assemblyPath)
 	if (status != MONO_IMAGE_OK)
 	{
 		const char* errorMessage = mono_image_strerror(status);
-		// Log some error message using the errorMessage data
+		std::cout << "Error ! While loading Mono assembly error message: " << errorMessage << std::endl;
 		return nullptr;
 	}
 
@@ -94,7 +96,7 @@ MonoClass* Mono::GetClassInAssembly(MonoAssembly* assembly, const char* namespac
 
 	if (klass == nullptr)
 	{
-		// Log error here
+		std::cout << "Error ! Could not find class: " << std::endl;
 		return nullptr;
 	}
 
@@ -112,7 +114,8 @@ MonoObject* Mono::InstantiateClass(MonoAssembly* assembly, const char* namespace
 
 	if (classInstance == nullptr)
 	{
-		// Log error here and abort
+		std::cout << "Error ! Could not Instantiate class " << className << std::endl;
+		return nullptr;
 	}
 
 	// Call the parameterless (default) constructor

@@ -22,6 +22,6 @@ void Events::OnSquareClick(GLFWwindow* window, int button, int action, int mods)
 		MonoObject* insta = args->MonoObj->InstantiateClass(csharpAssembly, "PathfindingAlgorithms", "Events");
 		Vector3 color = args->MonoObj->CallMethod<Vector3>(insta, "OnSquareClicked");
 
-		args->GridObj->ChangeSquareColor(square, glm::vec3(color.Pos1, color.Pos2, color.Pos3));
+		args->GridObj->ChangeSquareColor(square, Vector3(color.Pos1, color.Pos2, color.Pos3));
 	}
 }

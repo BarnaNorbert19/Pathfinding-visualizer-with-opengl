@@ -2,9 +2,7 @@
 #define VertexBuffer_CLASS_H
 
 #include <glad/glad.h>
-#include <glm/vec2.hpp>
 #include "GLErrorCheck.h"
-#include <glm/vec3.hpp>
 
 class VertexBuffer
 {

@@ -41,7 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonDataStructs\Vectors.cs" />
+    <Compile Include="Algorithms\AStar\AStar.cs" />
+    <Compile Include="Algorithms\AStar\AStarNode.cs" />
+    <Compile Include="Algorithms\BreadthFirst\BFS.cs" />
+    <Compile Include="Algorithms\BreadthFirst\BFSNode.cs" />
+    <Compile Include="Algorithms\DepthFirst\DFS.cs" />
+    <Compile Include="Algorithms\DepthFirst\DFSNode.cs" />
+    <Compile Include="Algorithms\Dijkstra\Dijkstra.cs" />
+    <Compile Include="Algorithms\Dijkstra\DijkstraNode.cs" />
+    <Compile Include="Algorithms\Model\ICoordinate.cs" />
+    <Compile Include="Algorithms\Model\INode.cs" />
+    <Compile Include="Algorithms\Model\GridInfo.cs" />
+    <Compile Include="Algorithms\Model\PathfindingBase.cs" />
+    <Compile Include="Algorithms\Model\PathfindingType.cs" />
+    <Compile Include="CommonData\Vectors.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
