@@ -10,8 +10,8 @@ void Grid::SaveSquareLocations(glm::vec2* original, glm::vec2* offsets)
 	{
 		SquareBounds temp;
 
-		temp.pos1 = original[0] + offsets[i];
-		temp.pos2 = original[2] + offsets[i];
+		temp.Pos1 = original[0] + offsets[i];
+		temp.Pos2 = original[2] + offsets[i];
 
 		SquareLocations[i] = temp;
 	}
@@ -85,33 +85,14 @@ int Grid::GetSquareByPosition(double mouseX, double mouseY)
 {
 	for (int i = 0; i < TotalSquares; i++)
 	{
-		if (SquareLocations[i].pos1.x <= mouseX && SquareLocations[i].pos2.x >= mouseX
-			&& SquareLocations[i].pos1.y >= mouseY && SquareLocations[i].pos2.y <= mouseY)
+		if (SquareLocations[i].Pos1.x <= mouseX && SquareLocations[i].Pos2.x >= mouseX
+			&& SquareLocations[i].Pos1.y >= mouseY && SquareLocations[i].Pos2.y <= mouseY)
 		{
 			return i;
 		}
 	}
 
 	return -1;
-}
-
-void Grid::OnSquareClick(GLFWwindow* window, int button, int action, int mods)
-{
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
-	{
-		double xPos, yPos;
-		glfwGetCursorPos(window, &xPos, &yPos);
-
-		int width, height;
-		glfwGetWindowSize(window, &width, &height);
-
-		double normalizedX = -1.0 + 2.0 * xPos / width;
-		double normalizedY = 1.0 - 2.0 * yPos / height;
-
-		int square = GetSquareByPosition(normalizedX, normalizedY);
-
-		ChangeSquareColor(square, glm::vec3(0.2f, 1.0f, 0.1f));
-	}
 }
 
 VertexArray Grid::GenerateGrid(glm::vec3 squareColors)
@@ -128,22 +109,22 @@ VertexArray Grid::GenerateGrid(glm::vec3 squareColors)
 	vao.Bind();
 
 	// Generates Vertex Buffer Object and links it to vertices
-	VertexBuffer<glm::vec2> vbo(vertices, sizeof(vertices));
+	auto vbo = VertexBuffer(vertices, sizeof(vertices));
 
 	// Links VBO to VAO
-	vao.LinkVertexBuffer<glm::vec2>(vbo, 0, 2, 0);
+	vao.LinkVertexBuffer(vbo, 0, 2, 0);
 
 	glm::vec2* offsets = GenerateOffsetArray(vertices);
 
 	GenerateColorsArray(glm::vec3(0.4, 0.2, 0.4));
 
-	VertexBuffer<glm::vec2> offsetBuffer(offsets, TotalSquares * sizeof(glm::vec2));
+	VertexBuffer offsetBuffer(offsets, TotalSquares * sizeof(glm::vec2));
 
-	vao.LinkVertexBuffer<glm::vec2>(offsetBuffer, 1, 2, 0);//size = how many dimension we have && stride = data slices
+	vao.LinkVertexBuffer(offsetBuffer, 1, 2, 0);//size = how many dimension we have && stride = data slices
 	glVertexAttribDivisor(1, 1);
 
-	ColorBuffer = new VertexBuffer<glm::vec3>(SquareColors, TotalSquares * sizeof(glm::vec3));
-	vao.LinkVertexBuffer<glm::vec3>(*ColorBuffer, 2, 3, 0);//size = how many dimension we have && stride = data slices
+	ColorBuffer = new VertexBuffer(SquareColors, TotalSquares * sizeof(glm::vec3));
+	vao.LinkVertexBuffer(*ColorBuffer, 2, 3, 0);//size = how many dimension we have && stride = data slices
 	glVertexAttribDivisor(2, 1);
 
 	// Generates Index Buffer Object and links it to indices
@@ -172,4 +153,13 @@ void Grid::ChangeSquareColor(int square, glm::vec3 color)
 		SquareColors[square] = color;
 		ColorBuffer->ChangeData(SquareColors, TotalSquares * sizeof(glm::vec3));
 	}
+}
+
+Point Grid::ConvertToPoint(int square)
+{
+	Point p;
+	p.X = square % SquareCountPerRow;
+	p.Y = square / SquareCountPerRow;
+
+	return p;
 }

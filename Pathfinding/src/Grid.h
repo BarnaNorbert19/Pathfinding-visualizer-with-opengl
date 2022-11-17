@@ -4,12 +4,19 @@
 #include "OpenGL/IndexBuffer.h"
 #include "OpenGL/Shaders/Shaders.h"
 #include <GLFW/glfw3.h>
+#include "Mono/Mono.h"
 
 //Defines the bounds (top-left corner and bottom-right corner) of the square
 struct SquareBounds
 {
-	glm::vec2 pos1;
-	glm::vec2 pos2;
+	glm::vec2 Pos1;
+	glm::vec2 Pos2;
+};
+
+struct Point
+{
+	int X;
+	int Y;
 };
 
 class Grid
@@ -19,7 +26,7 @@ private:
 	SquareBounds* SquareLocations;
 	//Every square's color
 	glm::vec3* SquareColors;
-	VertexBuffer<glm::vec3>* ColorBuffer;
+	VertexBuffer* ColorBuffer;
 	//Amount of squares in a row
 	int SquareCountPerRow;
 	//Normalized square width and height in float
@@ -41,10 +48,12 @@ public:
 	void GenerateColorsArray(glm::vec3 color);
 	//Returns the clicked square
 	int GetSquareByPosition(double mouseX, double mouseY);
-	void OnSquareClick(GLFWwindow* window, int button, int action, int mods);
 
 	VertexArray GenerateGrid(glm::vec3 squareColors = glm::vec3(0.4f, 0.1f, 1.0f));
 
 	void ChangeSquareColor(int square, glm::vec3 color);
+
+	//Converts one dimension square location to two
+	Point ConvertToPoint(int square);
 };
 

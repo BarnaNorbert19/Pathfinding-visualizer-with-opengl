@@ -47,6 +47,9 @@ project "Pathfinding"
     { 
         "glfw3.lib", "opengl32.lib", "msvcrt.lib", "mono-2.0-sgen.lib"
     }
+
+    staticruntime "on"
+    runtime "Release"
     
 
     filter "system:windows"
@@ -64,6 +67,3 @@ project "Pathfinding"
         {
             "xcopy \"$(SolutionDir)Pathfinding\\vendor\\mono\\bin\\mono-2.0-sgen.dll\" \"$(TargetDir)\" /y"
         }
-
-    filter {"system.windows", "configurations:Release"}
-        buildoptions "/MT" --Multithreaded bcs of GLFW

@@ -6,19 +6,30 @@
 #include "GLErrorCheck.h"
 #include <glm/vec3.hpp>
 
-template <class T>
 class VertexBuffer
 {
 public:
 	// Reference ID of the Vertex Buffer Object
 	GLuint ID;
 	// Constructor that generates a Vertex Buffer Object and links it to vertices
-	VertexBuffer(T* vertices, GLsizeiptr size);
+	template<typename T>
+	VertexBuffer(T* vertices, GLsizeiptr size)
+	{
+		GLCall(glGenBuffers(1, &ID));
+		Bind();
+		GLCall(glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW));
+	}
 
 	~VertexBuffer();
 
+	template<typename T>
+	void ChangeData(T* vertices, GLsizeiptr size)
+	{
+		Bind();
+		GLCall(glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW));
+		Unbind();
+	}
 
-	void ChangeData(T* vertices, GLsizeiptr size);
 	// Binds the VBO
 	void Bind();
 	// Unbinds the VBO

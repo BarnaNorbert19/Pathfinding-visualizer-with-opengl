@@ -1,7 +1,6 @@
 #ifndef VertexArray_CLASS_H
 #define VertexArray_CLASS_H
 
-#include <glad/glad.h>
 #include "VertexBuffer.h"
 
 class VertexArray
@@ -17,8 +16,15 @@ public:
 	~VertexArray();
 
 	// Links a VBO to the VAO using a certain layout
-	template<typename T>
-	void LinkVertexBuffer(VertexBuffer<T>& vbo, GLuint layout, GLuint size, GLsizei stride);
+	// Links a Vertex Buffer to the Vertex Array using a certain layout
+
+	void LinkVertexBuffer(VertexBuffer& vbo, GLuint layout, GLuint size, GLsizei stride)
+	{
+		vbo.Bind();
+		GLCall(glVertexAttribPointer(layout, size, GL_FLOAT, GL_FALSE, stride, (void*)0));
+		GLCall(glEnableVertexAttribArray(layout));
+		vbo.Unbind();
+	}
 	// Binds the VAO
 	void Bind();
 	// Unbinds the VAO

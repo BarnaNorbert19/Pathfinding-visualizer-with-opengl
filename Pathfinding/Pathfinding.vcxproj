@@ -138,6 +138,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Events\Events.h" />
     <ClInclude Include="src\GLFWSteps.h" />
     <ClInclude Include="src\Grid.h" />
     <ClInclude Include="src\Mono\Mono.h" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entry.cpp" />
+    <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\GLFWSteps.cpp" />
     <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\Mono\Mono.cpp" />

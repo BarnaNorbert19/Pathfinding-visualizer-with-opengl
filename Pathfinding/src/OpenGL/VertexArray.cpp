@@ -12,16 +12,6 @@ VertexArray::~VertexArray()
 	GLCall(glDeleteBuffers(1, &ID));
 }
 
-// Links a Vertex Buffer to the Vertex Array using a certain layout
-template<typename T>
-void VertexArray::LinkVertexBuffer(VertexBuffer<T>& vbo, GLuint layout, GLuint size, GLsizei stride)
-{
-	vbo.Bind();
-	GLCall(glVertexAttribPointer(layout, size, GL_FLOAT, GL_FALSE, stride, (void*)0));
-	GLCall(glEnableVertexAttribArray(layout));
-	vbo.Unbind();
-}
-
 // Binds the Vertex Array
 void VertexArray::Bind()
 {

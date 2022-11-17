@@ -4,6 +4,9 @@
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Events">
+      <UniqueIdentifier>{7162C20E-5D1A-045C-C621-DDB7B2F89E4C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Mono">
       <UniqueIdentifier>{F54E22CF-E11B-7DDA-0A35-6B82F660B268}</UniqueIdentifier>
     </Filter>
@@ -24,6 +27,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Events\Events.h">
+      <Filter>src\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\GLFWSteps.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -52,6 +58,9 @@
   <ItemGroup>
     <ClCompile Include="src\Entry.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Events\Events.cpp">
+      <Filter>src\Events</Filter>
     </ClCompile>
     <ClCompile Include="src\GLFWSteps.cpp">
       <Filter>src</Filter>

@@ -87,26 +87,6 @@ MonoAssembly* Mono::LoadCSharpAssembly(const std::string& assemblyPath)
 	return assembly;
 }
 
-void Mono::PrintAssemblyTypes(MonoAssembly* assembly)
-{
-
-	MonoImage* image = mono_assembly_get_image(assembly);
-	const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
-	int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
-
-	for (int32_t i = 0; i < numTypes; i++)
-	{
-		uint32_t cols[MONO_TYPEDEF_SIZE];
-		mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
-
-		const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
-		const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
-
-		printf("%s.%s\n", nameSpace, name);
-	}
-
-}
-
 MonoClass* Mono::GetClassInAssembly(MonoAssembly* assembly, const char* namespaceName, const char* className)
 {
 	MonoImage* image = mono_assembly_get_image(assembly);
@@ -125,7 +105,7 @@ MonoClass* Mono::GetClassInAssembly(MonoAssembly* assembly, const char* namespac
 MonoObject* Mono::InstantiateClass(MonoAssembly* assembly, const char* namespaceName, const char* className)
 {
 	// Get a reference to the class we want to instantiate
-	MonoClass* testingClass = GetClassInAssembly(assembly, "PathfindingAlgorithms", "Pathfinding");
+	MonoClass* testingClass = GetClassInAssembly(assembly, namespaceName, className);
 
 	// Allocate an instance of our class
 	MonoObject* classInstance = mono_object_new(AppDomain, testingClass);
@@ -139,47 +119,4 @@ MonoObject* Mono::InstantiateClass(MonoAssembly* assembly, const char* namespace
 	mono_runtime_object_init(classInstance);
 
 	return classInstance;
-}
-
-void Mono::CallMethod(MonoObject* objectInstance)
-{
-	// Get the MonoClass pointer from the instance
-	MonoClass* instanceClass = mono_object_get_class(objectInstance);
-
-	// Get a reference to the method in the class
-	MonoMethod* method = mono_class_get_method_from_name(instanceClass, "PrintFloatVar", 0);
-
-	if (method == nullptr)
-	{
-		// No method called "PrintFloatVar" with 0 parameters in the class, log error or something
-		return;
-	}
-
-	// Call the C# method on the objectInstance instance, and get any potential exceptions
-	MonoObject* exception = nullptr;
-	mono_runtime_invoke(method, objectInstance, nullptr, &exception);
-
-	// TODO: Handle the exception
-}
-
-void Mono::CallMethod(MonoObject* objectInstance, float value)
-{
-	// Get the MonoClass pointer from the instance
-	MonoClass* instanceClass = mono_object_get_class(objectInstance);
-
-	// Get a reference to the method in the class
-	MonoMethod* method = mono_class_get_method_from_name(instanceClass, "IncrementFloatVar", 1);
-
-	if (method == nullptr)
-	{
-		// No method called "IncrementFloatVar" with 1 parameter in the class, log error or something
-		return;
-	}
-
-	// Call the C# method on the objectInstance instance, and get any potential exceptions
-	MonoObject* exception = nullptr;
-	void* param = &value;
-	mono_runtime_invoke(method, objectInstance, &param, &exception);
-
-	// TODO: Handle the exception
 }
