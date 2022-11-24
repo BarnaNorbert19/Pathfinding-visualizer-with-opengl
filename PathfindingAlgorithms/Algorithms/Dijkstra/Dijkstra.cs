@@ -1,9 +1,10 @@
-﻿using PathfindingAlgorithms.Algorithms.Model;
-using PathfindingAlgorithms.CommonData;
+﻿using PathfindingAlgorithms.CommonData;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,10 +15,8 @@ namespace Pathfinding.Dijkstra
         public override IEnumerable<INode> UnvisitedNodes { get; set; }
         public override IEnumerable<INode> VisitedNodes { get; set; }
 
-        public async override Task<IEnumerable<INode>> FindPathDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public override IEnumerable<INode> FindPathDiagonal(GridInfo meshInfo)
         {
-            timer.Start();
-
             var visited = new List<DijkstraNode>();
             var unvisited = new List<DijkstraNode>
             {
@@ -28,7 +27,7 @@ namespace Pathfinding.Dijkstra
             {
                 DijkstraNode cur_node = unvisited[unvisited.Count - 1];
                 unvisited.Remove(cur_node);
-                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<DijkstraNode>();
+                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLength - 1, meshInfo.VerticalLength - 1, cur_node, meshInfo.End).Cast<DijkstraNode>();
 
                 foreach (var node in neighbours)
                 {
@@ -52,12 +51,6 @@ namespace Pathfinding.Dijkstra
                     }
 
                     unvisited.Insert(0, node);
-
-                    timer.Stop();
-
-                    if (node.Coord != meshInfo.End && node.Coord != meshInfo.Start)
-                        await Task.Run(() => UnvisitedPathChanged(node), cToken);
-                    timer.Start();
                 }
 
                 visited.Add(cur_node);
@@ -68,20 +61,14 @@ namespace Pathfinding.Dijkstra
                     VisitedNodes = visited;
                     return CalculatePath(cur_node);
                 }
-                    
-
-                timer.Stop();
-                await Task.Run(() => VisitedPathChanged(cur_node), cToken);
-                await Task.Delay(delay, cToken);
-                timer.Start();
+                 
             }
 
             return null;
         }
 
-        public async override Task<IEnumerable<INode>> FindPathNoDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public override IEnumerable<INode> FindPathNoDiagonal(GridInfo meshInfo)
         {
-            timer.Start();
             var visited = new List<DijkstraNode>();
             var unvisited = new List<DijkstraNode>
             {
@@ -92,7 +79,7 @@ namespace Pathfinding.Dijkstra
             {
                 DijkstraNode cur_node = unvisited[unvisited.Count - 1];
                 unvisited.Remove(cur_node);
-                var neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<DijkstraNode>();
+                var neighbours = GetNeighbours(meshInfo.HorizontalLength - 1, meshInfo.VerticalLength - 1, cur_node, meshInfo.End).Cast<DijkstraNode>();
 
                 foreach (var node in neighbours)
                 {
@@ -114,10 +101,6 @@ namespace Pathfinding.Dijkstra
                     }
 
                     unvisited.Insert(0, node);
-
-                    timer.Stop();
-                    await Task.Run(() => UnvisitedPathChanged(node), cToken);
-                    timer.Start();
                 }
 
                 visited.Add(cur_node);
@@ -128,19 +111,12 @@ namespace Pathfinding.Dijkstra
                     VisitedNodes = visited;
                     return CalculatePath(cur_node);
                 }
-
-                timer.Stop();
-                await Task.Run(() => VisitedPathChanged(cur_node), cToken);
-
-                await Task.Delay(delay, cToken);
-
-                timer.Start();
             }
 
             return null;
         }
 
-        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, Point end)
         {
             List<DijkstraNode> result = new List<DijkstraNode>();
             //Define grid bounds
@@ -152,14 +128,14 @@ namespace Pathfinding.Dijkstra
             for (int i = rowMinimum; i <= rowMaximum; i++)
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                 {
-                    var curPoint = new Vectors.Vector2(i, j);
+                    var curPoint = new Point(i, j);
                     if ((i != mainNode.Coord.X || j != mainNode.Coord.Y) && (mainNode.Coord.X == curPoint.X || mainNode.Coord.Y == curPoint.Y))
                         result.Add(new DijkstraNode(curPoint, mainNode, Distance(curPoint, mainNode.Coord) + mainNode.G));
                 }
             return result;
         }
 
-        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, Point end)
         {
             List<DijkstraNode> result = new List<DijkstraNode>();
             //Define grid bounds
@@ -172,7 +148,7 @@ namespace Pathfinding.Dijkstra
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                     if (i != mainNode.Coord.X || j != mainNode.Coord.Y)
                     {
-                        var cur_point = new Vectors.Vector2(i, j);
+                        var cur_point = new Point(i, j);
                         result.Add(new DijkstraNode(cur_point, mainNode, Distance(cur_point, mainNode.Coord) + mainNode.G));
                     }
             return result;

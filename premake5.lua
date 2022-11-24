@@ -44,7 +44,7 @@ project "Pathfinding"
 
     links 
     { 
-        "glfw3.lib", "opengl32.lib", "msvcrt.lib", "mono-2.0-sgen.lib"
+        "glfw3.lib", "opengl32.lib", "msvcrt.lib", "mono-2.0-sgen.lib", "eglib.lib", "libmono-static-sgen.lib", "MonoPosixHelper.lib"
     }
 
     staticruntime "on"
@@ -65,4 +65,5 @@ project "Pathfinding"
         postbuildcommands
         {
             "xcopy \"$(SolutionDir)Pathfinding\\vendor\\mono\\bin\\mono-2.0-sgen.dll\" \"$(TargetDir)\" /y"
+            --"xcopy \"$(SolutionDir)Pathfinding\\vendor\\mono\\bin\\MonoPosixHelper.dll\" \"$(TargetDir)\" /y"
         }

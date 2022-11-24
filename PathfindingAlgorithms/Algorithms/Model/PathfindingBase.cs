@@ -1,8 +1,8 @@
-﻿using PathfindingAlgorithms.Algorithms.Model;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 namespace Pathfinding
@@ -16,10 +16,10 @@ namespace Pathfinding
         public abstract IEnumerable<INode> UnvisitedNodes { get; set; }
         public abstract IEnumerable<INode> VisitedNodes { get; set; }
 
-        public abstract Task<IEnumerable<INode>> FindPathDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken);
-        public abstract Task<IEnumerable<INode>> FindPathNoDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken);
-        protected abstract IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end);
-        protected abstract IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end);
+        public abstract IEnumerable<INode> FindPathDiagonal(GridInfo meshInfo);
+        public abstract IEnumerable<INode> FindPathNoDiagonal(GridInfo meshInfo);
+        protected abstract IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, Point end);
+        protected abstract IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, Point end);
         protected static IEnumerable<INode> CalculatePath(INode endNode)
         {
             List<INode> path = new List<INode>()
@@ -36,7 +36,7 @@ namespace Pathfinding
             path.Reverse();
             return path;
         }
-        protected static int Distance(ICoordinate basePoint, ICoordinate targetPoint)
+        protected static int Distance(Point basePoint, Point targetPoint)
         {
             const int straight = 10;
             const int diagonal = 14;

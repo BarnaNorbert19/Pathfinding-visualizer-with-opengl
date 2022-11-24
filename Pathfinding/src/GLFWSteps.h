@@ -7,7 +7,8 @@
 class GLFWSteps
 {
 public:
-	static GLFWwindow* CreateWindow(const char* title = "Default", int windowWidth = 960, int windowHeight = 720);
-	static void WindowLoop(GLFWwindow* window, VertexArray* vao, Grid* grid);
-	static void CleanUp(GLFWwindow*);
+	static GLFWwindow* WindowPointer;
+	static void CreateWindow(const char* title = "Default", int windowWidth = 960, int windowHeight = 720);
+	static void WindowLoop(VertexArray* vao, Grid* grid);
+	static void CleanUp();
 };

@@ -1,11 +1,8 @@
-﻿using PathfindingAlgorithms.Algorithms.Model;
-using PathfindingAlgorithms.CommonData;
+﻿using PathfindingAlgorithms.CommonData;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Pathfinding.AStar
 {
@@ -14,20 +11,17 @@ namespace Pathfinding.AStar
         public override IEnumerable<INode> UnvisitedNodes { get; set; }
         public override IEnumerable<INode> VisitedNodes { get; set; }
 
-        public override async Task<IEnumerable<INode>> FindPathNoDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public override IEnumerable<INode> FindPathNoDiagonal(GridInfo meshInfo)
         {
+
             var unvisited = new List<AStarNode>();
             var visited = new List<AStarNode>();
 
-            timer.Start();
             unvisited.Add(new AStarNode(meshInfo.Start, Distance(meshInfo.Start, meshInfo.End)));
 
             while (unvisited.Count > 0)
             {
                 AStarNode cur_node = GetLowestF(unvisited);
-                timer.Stop();
-                await Task.Run(() => VisitedPathChanged(cur_node), cToken);
-                timer.Start();
 
                 if (cur_node.Coord == meshInfo.End)
                 {
@@ -35,11 +29,10 @@ namespace Pathfinding.AStar
                     UnvisitedNodes = unvisited;
                     return CalculatePath(cur_node);
                 }
-
                 unvisited.Remove(cur_node);
                 visited.Add(cur_node);
 
-                var neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<AStarNode>();
+                var neighbours = GetNeighbours(meshInfo.HorizontalLength - 1, meshInfo.VerticalLength - 1, cur_node, meshInfo.End).Cast<AStarNode>();
 
                 foreach (AStarNode neighbourNode in neighbours)
                 {
@@ -55,24 +48,13 @@ namespace Pathfinding.AStar
 
                     if (!unvisited.Any(s => s.Coord == neighbourNode.Coord))
                         unvisited.Add(neighbourNode);
-
-                    //Not part of the algo
-                    timer.Stop();
-
-                    await Task.Run(() => UnvisitedPathChanged(neighbourNode), cToken);
-
-                    await Task.Delay(delay, cToken);
-
-                    timer.Start();
                 }
             }
             return null;
         }
 
-        public override async Task<IEnumerable<INode>> FindPathDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public override IEnumerable<INode> FindPathDiagonal(GridInfo meshInfo)
         {
-            timer.Start();
-
             var unvisited = new List<AStarNode>();
             var visited = new List<AStarNode>();
 
@@ -81,11 +63,6 @@ namespace Pathfinding.AStar
             while (unvisited.Count > 0)
             {
                 AStarNode cur_node = GetLowestF(unvisited);
-
-                //Not part of the algo
-                timer.Stop();
-                    await Task.Run(() => VisitedPathChanged(cur_node), cToken);
-                timer.Start();
 
                 if (cur_node.Coord == meshInfo.End)
                 {
@@ -97,7 +74,7 @@ namespace Pathfinding.AStar
                 unvisited.Remove(cur_node);
                 visited.Add(cur_node);
 
-                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<AStarNode>();
+                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLength - 1, meshInfo.VerticalLength - 1, cur_node, meshInfo.End).Cast<AStarNode>();
 
                 foreach (AStarNode neighbourNode in neighbours)
                 {
@@ -109,21 +86,12 @@ namespace Pathfinding.AStar
 
                     if (!unvisited.Any(s => s.Coord == neighbourNode.Coord))
                         unvisited.Add(neighbourNode);
-
-                    //Not part of the algo
-                    timer.Stop();
-                        await Task.Run(() => UnvisitedPathChanged(neighbourNode), cToken);
-
-                    if (delay != 0)
-                        await Task.Delay(delay, cToken);
-
-                    timer.Start();
                 }
             }
             return null;
         }
 
-        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode mainNode, Point end)
         {
             List<AStarNode> result = new List<AStarNode>();
 
@@ -137,14 +105,14 @@ namespace Pathfinding.AStar
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                     if (i != mainNode.Coord.X || j != mainNode.Coord.Y)
                     {
-                        var cur_point = new Vectors.Vector2(i, j);
+                        var cur_point = new Point(i, j);
                         result.Add(new AStarNode(cur_point, Distance(cur_point, end), Distance(cur_point, mainNode.Coord) + mainNode.G, mainNode));
                     }
 
             return result;
         }
 
-        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode mainNode, Point end)
         {
             List<AStarNode> result = new List<AStarNode>();
 
@@ -157,7 +125,7 @@ namespace Pathfinding.AStar
             for (int i = rowMinimum; i <= rowMaximum; i++)
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                 {
-                    var cur_point = new Vectors.Vector2(i, j);
+                    var cur_point = new Point(i, j);
                     if ((i != mainNode.Coord.X || j != mainNode.Coord.Y) && (mainNode.Coord.X == cur_point.X || mainNode.Coord.Y == cur_point.Y))
                         result.Add(new AStarNode(cur_point, Distance(cur_point, end), Distance(cur_point, mainNode.Coord) + mainNode.G, mainNode));
                 }

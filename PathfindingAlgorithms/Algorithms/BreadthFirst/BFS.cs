@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
 using System;
-using PathfindingAlgorithms.Algorithms.Model;
 using PathfindingAlgorithms.CommonData;
 
 namespace Pathfinding.BreadthFirst
@@ -15,10 +14,8 @@ namespace Pathfinding.BreadthFirst
         public override IEnumerable<INode> UnvisitedNodes { get; set; }
         public override IEnumerable<INode> VisitedNodes { get; set; }
 
-        public async override Task<IEnumerable<INode>> FindPathDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public override IEnumerable<INode> FindPathDiagonal(GridInfo meshInfo)
         {
-            timer.Start();
-
             var visited = new List<BFSNode>();
             var unvisited = new Queue<BFSNode>();
             unvisited.Enqueue(new BFSNode(meshInfo.Start, null));
@@ -34,7 +31,7 @@ namespace Pathfinding.BreadthFirst
                     return CalculatePath(cur_node);
                 }
 
-                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<BFSNode>();
+                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLength - 1, meshInfo.VerticalLength - 1, cur_node, meshInfo.End).Cast<BFSNode>();
 
                 foreach (var node in neighbours)
                 {
@@ -48,28 +45,16 @@ namespace Pathfinding.BreadthFirst
                         continue;
 
                     unvisited.Enqueue(node);
-
-                    timer.Stop();
-                    await Task.Run(() => UnvisitedPathChanged(node), cToken);
-                    timer.Start();
                 }
 
                 visited.Add(cur_node);
-
-                timer.Stop();
-                await Task.Run(() => VisitedPathChanged(cur_node), cToken);
-                await Task.Delay(delay, cToken);
-
-                timer.Start();
             }
 
             return null;
         }
 
-        public async override Task<IEnumerable<INode>> FindPathNoDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public override IEnumerable<INode> FindPathNoDiagonal(GridInfo meshInfo)
         {
-            timer.Start();
-
             var visited = new List<BFSNode>();
             var unvisited = new Queue<BFSNode>();
             unvisited.Enqueue(new BFSNode(meshInfo.Start, null));
@@ -85,7 +70,7 @@ namespace Pathfinding.BreadthFirst
                     return CalculatePath(cur_node);
                 }
 
-                var neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<BFSNode>();
+                var neighbours = GetNeighbours(meshInfo.HorizontalLength - 1, meshInfo.VerticalLength - 1, cur_node, meshInfo.End).Cast<BFSNode>();
 
                 foreach (var node in neighbours)
                 {
@@ -99,25 +84,15 @@ namespace Pathfinding.BreadthFirst
                         continue;
 
                     unvisited.Enqueue(node);
-
-                    timer.Stop();
-                    await Task.Run(() => UnvisitedPathChanged(node), cToken);
-                    timer.Start();
                 }
 
                 visited.Add(cur_node);
-
-                timer.Stop();
-                await Task.Run(() => VisitedPathChanged(cur_node), cToken);
-                await Task.Delay(delay, cToken);
-
-                timer.Start();
             }
 
             return null;
         }
 
-        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode main_node, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode main_node, Point end)
         {
             List<BFSNode> result = new List<BFSNode>();
             //Define grid bounds
@@ -129,14 +104,14 @@ namespace Pathfinding.BreadthFirst
             for (int i = rowMinimum; i <= rowMaximum; i++)
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                 {
-                    ICoordinate cur_point = new Vectors.Vector2(i, j);
+                    Point cur_point = new Point(i, j);
                     if ((i != main_node.Coord.X || j != main_node.Coord.Y) && (main_node.Coord.X == cur_point.X || main_node.Coord.Y == cur_point.Y))
                         result.Add(new BFSNode(cur_point, main_node));
                 }
             return result;
         }
 
-        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode main_node, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode main_node, Point end)
         {
             List<BFSNode> result = new List<BFSNode>();
             //Define grid bounds
@@ -149,7 +124,7 @@ namespace Pathfinding.BreadthFirst
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                     if (i != main_node.Coord.X || j != main_node.Coord.Y)
                     {
-                        ICoordinate cur_point = new Vectors.Vector2(i, j);
+                        Point cur_point = new Point(i, j);
                         result.Add(new BFSNode(cur_point, main_node));
                     }
             return result;

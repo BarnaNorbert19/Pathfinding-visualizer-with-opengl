@@ -6,21 +6,21 @@
 
 #define SCREEN_WIDTH 960
 #define SCREEN_HEIGHT 720
-
-int SuqareCount = 30;
+#define SQUARE_COUNT 30
 
 
 int main(void)
 {
-	GLFWwindow* window = GLFWSteps::CreateWindow("Test");
+	GLFWSteps::CreateWindow("Test");
 
-	if (window == nullptr)
+	if (GLFWSteps::WindowPointer == nullptr)
 		return -1;
 
-	Mono mono = Mono();
+	Mono mono = Mono("vendor/mono/lib", "\\vendor", "PathfindingAlgorithms");
+	mono.LoadCSharpAssembly("PathfindingAlgorithms/bin/Debug/PathfindingAlgorithms.dll");
 
 	{
-		Grid grid = Grid(SuqareCount);
+		Grid grid = Grid(SQUARE_COUNT);
 		VertexArray vao = grid.GenerateGrid();
 
 		SquareClickEventArgs args =
@@ -29,12 +29,12 @@ int main(void)
 			&mono
 		};
 
-		glfwSetWindowUserPointer(window, &args);
-		glfwSetMouseButtonCallback(window, Events::OnSquareClick);
+		glfwSetWindowUserPointer(GLFWSteps::WindowPointer, &args);
+		glfwSetMouseButtonCallback(GLFWSteps::WindowPointer, Events::OnSquareClick);
 
-		GLFWSteps::WindowLoop(window, &vao, &grid);
+		GLFWSteps::WindowLoop(&vao, &grid);
 	}
-	GLFWSteps::CleanUp(window);
+	GLFWSteps::CleanUp();
 
 	return 0;
 }

@@ -5,78 +5,49 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
-
-struct Vector3
-{
-	float Pos1;
-	float Pos2;
-	float Pos3;
-};
+#include "CommonData/Point.h"
 
 class Mono
 {
 private:
 	char* ReadBytes(const std::string& filepath, uint32_t* outSize);
-	MonoDomain* RootDomain;
-	MonoDomain* AppDomain;
+	MonoDomain* RootDomain = nullptr;
+	MonoDomain* AppDomain = nullptr;
+	MonoAssembly* AppAssembly = nullptr;
+	void LoadInternalCalls();
+
 public:
-	Mono();
+	Mono(const char* monoAssemblyPath, const char* monoDirsPath, const char* appDomainName, char* configuration = nullptr);
 	~Mono();
 
-	MonoAssembly* LoadCSharpAssembly(const std::string& assemblyPath);
-	MonoClass* GetClassInAssembly(MonoAssembly* assembly, const char* namespaceName, const char* className);
-	MonoObject* InstantiateClass(MonoAssembly* assembly, const char* namespaceName, const char* className);
-	template<typename T>
-	T CallMethod(MonoObject* objectInstance, const char* methodName)
+	void LoadCSharpAssembly(const std::string& assemblyPath);
+	MonoClass* GetClassInAssembly(const char* namespaceName, const char* className);
+	MonoObject* InstantiateClass(const char* namespaceName, const char* className);
+
+	template <typename... Vars>
+	void CallMethod(MonoObject* objectInstance, const char* methodName, Vars... param)
 	{
-		// Get the MonoClass pointer from the instance
+		const int paramCount = sizeof...(Vars);
+
 		MonoClass* instanceClass = mono_object_get_class(objectInstance);
 
-		// Get a reference to the method in the class
-		MonoMethod* method = mono_class_get_method_from_name(instanceClass, methodName, 0);
+		MonoMethod* method = mono_class_get_method_from_name(instanceClass, methodName, paramCount);
 
-		if (method == nullptr)
+		if (!method)
 		{
-			// No method called "PrintFloatVar" with 0 parameters in the class, log error or something
-			T defaultValue;
-			return defaultValue;
-		}
-
-		// Call the C# method on the objectInstance instance, and get any potential exceptions
-		MonoObject* exception = nullptr;
-		//with return value: 
-		auto a = mono_runtime_invoke(method, objectInstance, nullptr, &exception);
-
-		T returnValue = *(T*)mono_object_unbox(a);
-
-		// TODO: Handle the exception
-
-		return returnValue;
-	}
-
-
-
-	template <typename T>
-	void CallMethod(MonoObject* objectInstance, const char* methodName, T value)
-	{
-		// Get the MonoClass pointer from the instance
-		MonoClass* instanceClass = mono_object_get_class(objectInstance);
-
-		// Get a reference to the method in the class
-		MonoMethod* method = mono_class_get_method_from_name(instanceClass, methodName, 1);
-
-		if (method == nullptr)
-		{
-			// No method called "IncrementFloatVar" with 1 parameter in the class, log error or something
+			std::cout << "Error ! Could not find method" << std::endl;
 			return;
 		}
 
-		// Call the C# method on the objectInstance instance, and get any potential exceptions
-		MonoObject* exception = nullptr;
-		void* param = &value;
-		mono_runtime_invoke(method, objectInstance, &param, &exception);
+		void* paramArray[paramCount] = { &param... };
 
-		// TODO: Handle the exception
+		MonoObject* exception;
+		mono_runtime_invoke(method, instanceClass, paramArray, &exception);
+
+		if (exception)
+		{
+			mono_unhandled_exception(exception);
+		}
 	}
 };
 

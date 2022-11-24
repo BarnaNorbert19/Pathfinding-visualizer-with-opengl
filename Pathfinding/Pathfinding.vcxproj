@@ -87,7 +87,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;mono-2.0-sgen.lib;eglib.lib;libmono-static-sgen.lib;MonoPosixHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>vendor\GLFW-3.3.8\lib;vendor\mono\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
@@ -108,7 +108,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;mono-2.0-sgen.lib;eglib.lib;libmono-static-sgen.lib;MonoPosixHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>vendor\GLFW-3.3.8\lib;vendor\mono\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
@@ -129,7 +129,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;msvcrt.lib;mono-2.0-sgen.lib;eglib.lib;libmono-static-sgen.lib;MonoPosixHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>vendor\GLFW-3.3.8\lib;vendor\mono\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
@@ -141,13 +141,14 @@
     <ClInclude Include="src\Events\Events.h" />
     <ClInclude Include="src\GLFWSteps.h" />
     <ClInclude Include="src\Grid.h" />
+    <ClInclude Include="src\Mono\CommonData\Point.h" />
+    <ClInclude Include="src\Mono\CommonData\Vectors.h" />
     <ClInclude Include="src\Mono\Mono.h" />
     <ClInclude Include="src\OpenGL\GLErrorCheck.h" />
     <ClInclude Include="src\OpenGL\IndexBuffer.h" />
     <ClInclude Include="src\OpenGL\Shaders\Shaders.h" />
     <ClInclude Include="src\OpenGL\VertexArray.h" />
     <ClInclude Include="src\OpenGL\VertexBuffer.h" />
-    <ClInclude Include="src\Mono\CommonData\Vectors.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entry.cpp" />
@@ -160,8 +161,10 @@
     <ClCompile Include="src\OpenGL\Shaders\Shaders.cpp" />
     <ClCompile Include="src\OpenGL\VertexArray.cpp" />
     <ClCompile Include="src\OpenGL\VertexBuffer.cpp" />
-    <ClCompile Include="src\Mono\CommonData\Vectors.cpp" />
     <ClCompile Include="vendor\GLAD-2.0\src\glad.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\PathfindingAlgorithms\PathfindingAlgorithms.csproj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

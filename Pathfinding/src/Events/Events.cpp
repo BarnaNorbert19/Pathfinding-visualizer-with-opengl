@@ -1,5 +1,6 @@
 #include "Events.h"
 
+
 void Events::OnSquareClick(GLFWwindow* window, int button, int action, int mods)
 {
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
@@ -15,13 +16,41 @@ void Events::OnSquareClick(GLFWwindow* window, int button, int action, int mods)
 
 		SquareClickEventArgs* args = static_cast<SquareClickEventArgs*>(glfwGetWindowUserPointer(window));
 
-		int square = args->GridObj->GetSquareByPosition(normalizedX, normalizedY);
-		Point test = args->GridObj->ConvertToPoint(square);
+		int square1d = args->GridObj->GetSquareByPosition(normalizedX, normalizedY);
 
-		MonoAssembly* csharpAssembly = args->MonoObj->LoadCSharpAssembly("PathfindingAlgorithms/bin/Debug/PathfindingAlgorithms.dll");
-		MonoObject* insta = args->MonoObj->InstantiateClass(csharpAssembly, "PathfindingAlgorithms", "Events");
-		Vector3 color = args->MonoObj->CallMethod<Vector3>(insta, "OnSquareClicked");
+		if (square1d == -1)
+			return;
 
-		args->GridObj->ChangeSquareColor(square, Vector3(color.Pos1, color.Pos2, color.Pos3));
+		Point square2d = args->GridObj->ConvertIntToPoint(square1d);
+		
+		MonoObject* klass = args->MonoObj->InstantiateClass("PathfindingAlgorithms", "Events");
+		args->MonoObj->CallMethod(klass, "OnSquareClicked", square2d);
 	}
+}
+
+void Events::ChangeColor(Point square, Vectors::Vector3 color)
+{
+	SquareClickEventArgs* args = static_cast<SquareClickEventArgs*>(glfwGetWindowUserPointer(GLFWSteps::WindowPointer));
+	
+	int squareArrayPos = args->GridObj->ConvertPointToInt(square);
+	args->GridObj->ChangeSquareColor(squareArrayPos, color);
+}
+
+void Events::ReDraw()
+{
+	SquareClickEventArgs* args = static_cast<SquareClickEventArgs*>(glfwGetWindowUserPointer(GLFWSteps::WindowPointer));
+
+	args->GridObj->ReDrawSquarePixels();
+}
+
+void Events::ResetGrid()
+{
+	SquareClickEventArgs* args = static_cast<SquareClickEventArgs*>(glfwGetWindowUserPointer(GLFWSteps::WindowPointer));
+
+	for (int i = 0; i < args->GridObj->TotalSquares; i++)
+	{
+		args->GridObj->ChangeSquareColor(i, Vectors::Vector3(0.4f, 0.2f, 0.4f));
+	}
+
+	args->GridObj->ReDrawSquarePixels();
 }

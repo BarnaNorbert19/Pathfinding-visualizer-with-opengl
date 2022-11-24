@@ -1,4 +1,5 @@
 #include "Mono.h"
+#include "../Events/Events.h"
 
 char* Mono::ReadBytes(const std::string& filepath, uint32_t* outSize)
 {
@@ -30,39 +31,49 @@ char* Mono::ReadBytes(const std::string& filepath, uint32_t* outSize)
 	return buffer;
 }
 
-Mono::Mono()
+void Mono::LoadInternalCalls()
 {
-	mono_set_assemblies_path("vendor/mono/lib");
+	mono_add_internal_call("PathfindingAlgorithms.CommonData.ExternalCalls::ChangeColor", &Events::ChangeColor);
+	mono_add_internal_call("PathfindingAlgorithms.CommonData.ExternalCalls::ReDraw", &Events::ReDraw);
+	mono_add_internal_call("PathfindingAlgorithms.CommonData.ExternalCalls::ResetGrid", &Events::ResetGrid);
+}
+
+Mono::Mono(const char* monoAssemblyPath, const char* monoDirsPath, const char* appDomainName, char* configuration)
+{
+	mono_set_assemblies_path(monoAssemblyPath);
 
 	std::string curPath = std::filesystem::current_path().string();
-	curPath.append("\\vendor");
+	curPath.append(monoDirsPath);
 	const char* assembly = curPath.c_str();
 
 	mono_set_dirs(assembly, ".");
 
-	MonoDomain* rootDomain = mono_jit_init("PathfindingScripting");
-	if (rootDomain == nullptr)
+	RootDomain = mono_jit_init(appDomainName);
+	if (RootDomain == nullptr)
 	{
-		// Maybe log some error here
+		std::cout << "Error ! Could not initalize JIT" << std::endl;
 		return;
 	}
 
-	// Store the root domain pointer
-	RootDomain = rootDomain;
-
 	// Create an App Domain
-	char appDomain[21] = "PathfindingScripting";
-	AppDomain = mono_domain_create_appdomain(appDomain, nullptr);
+	char* appDomain = _strdup(appDomainName);
+	AppDomain = mono_domain_create_appdomain(appDomain, configuration);
 	mono_domain_set(AppDomain, true);
+	LoadInternalCalls();
 }
 
 Mono::~Mono()
 {
+	if (AppAssembly)
+		mono_assembly_close(AppAssembly);
+	/*if (AppDomain)
+		mono_domain_free(AppDomain, true);*/
 	if (RootDomain)
-		mono_jit_cleanup(RootDomain);
+		mono_domain_free(RootDomain, true);
+
 }
 
-MonoAssembly* Mono::LoadCSharpAssembly(const std::string& assemblyPath)
+void Mono::LoadCSharpAssembly(const std::string& assemblyPath)
 {
 	std::string fullPath = std::filesystem::current_path().parent_path().string() + "\\" + assemblyPath;
 
@@ -77,21 +88,19 @@ MonoAssembly* Mono::LoadCSharpAssembly(const std::string& assemblyPath)
 	{
 		const char* errorMessage = mono_image_strerror(status);
 		std::cout << "Error ! While loading Mono assembly error message: " << errorMessage << std::endl;
-		return nullptr;
+		return;
 	}
 
-	MonoAssembly* assembly = mono_assembly_load_from_full(image, fullPath.c_str(), &status, 0);
+	AppAssembly = mono_assembly_load_from_full(image, fullPath.c_str(), &status, 0);
 	mono_image_close(image);
 
 	// Don't forget to free the file data
 	delete[] fileData;
-
-	return assembly;
 }
 
-MonoClass* Mono::GetClassInAssembly(MonoAssembly* assembly, const char* namespaceName, const char* className)
+MonoClass* Mono::GetClassInAssembly(const char* namespaceName, const char* className)
 {
-	MonoImage* image = mono_assembly_get_image(assembly);
+	MonoImage* image = mono_assembly_get_image(AppAssembly);
 	MonoClass* klass = mono_class_from_name(image, namespaceName, className);
 
 	if (klass == nullptr)
@@ -104,13 +113,13 @@ MonoClass* Mono::GetClassInAssembly(MonoAssembly* assembly, const char* namespac
 
 }
 
-MonoObject* Mono::InstantiateClass(MonoAssembly* assembly, const char* namespaceName, const char* className)
+MonoObject* Mono::InstantiateClass(const char* namespaceName, const char* className)
 {
 	// Get a reference to the class we want to instantiate
-	MonoClass* testingClass = GetClassInAssembly(assembly, namespaceName, className);
+	MonoClass* klass = GetClassInAssembly(namespaceName, className);
 
 	// Allocate an instance of our class
-	MonoObject* classInstance = mono_object_new(AppDomain, testingClass);
+	MonoObject* classInstance = mono_object_new(AppDomain, klass);
 
 	if (classInstance == nullptr)
 	{
@@ -120,6 +129,8 @@ MonoObject* Mono::InstantiateClass(MonoAssembly* assembly, const char* namespace
 
 	// Call the parameterless (default) constructor
 	mono_runtime_object_init(classInstance);
-
+	
 	return classInstance;
 }
+
+

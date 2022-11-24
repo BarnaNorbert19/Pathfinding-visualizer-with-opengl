@@ -71,9 +71,9 @@ Vectors::Vector2* Grid::GenerateOffsetArray(Vectors::Vector2* baseSquare)
 	return squares;
 }
 
-void Grid::GenerateColorsArray(Vector3 color)
+void Grid::GenerateColorsArray(Vectors::Vector3 color)
 {
-	SquareColors = new Vector3[TotalSquares];
+	SquareColors = new Vectors::Vector3[TotalSquares];
 
 	for (int i = 0; i < TotalSquares; i++)
 	{
@@ -116,14 +116,15 @@ VertexArray Grid::GenerateGrid(Vectors::Vector3 squareColors)
 
 	Vectors::Vector2* offsets = GenerateOffsetArray(vertices);
 
-	GenerateColorsArray(Vector3(0.4, 0.2, 0.4));
+	GenerateColorsArray(Vectors::Vector3(0.4f, 0.2f, 0.4f));
 
 	VertexBuffer offsetBuffer(offsets, TotalSquares * sizeof(Vectors::Vector2));
+
 
 	vao.LinkVertexBuffer(offsetBuffer, 1, 2, 0);//size = how many dimension we have && stride = data slices
 	glVertexAttribDivisor(1, 1);
 
-	ColorBuffer = new VertexBuffer(SquareColors, TotalSquares * sizeof(Vector3));
+	ColorBuffer = new VertexBuffer(SquareColors, TotalSquares * sizeof(Vectors::Vector3));
 	vao.LinkVertexBuffer(*ColorBuffer, 2, 3, 0);//size = how many dimension we have && stride = data slices
 	glVertexAttribDivisor(2, 1);
 
@@ -146,20 +147,28 @@ VertexArray Grid::GenerateGrid(Vectors::Vector3 squareColors)
 	return vao;
 }
 
-void Grid::ChangeSquareColor(int square, Vector3 color)
+void Grid::ChangeSquareColor(int square, Vectors::Vector3 color)
 {
-	if (square >= 0)//prevent heap overflow, sometimes picks up value -1
-	{
-		SquareColors[square] = color;
-		ColorBuffer->ChangeData(SquareColors, TotalSquares * sizeof(Vectors::Vector3));
-	}
+	SquareColors[square] = color;
 }
 
-Point Grid::ConvertToPoint(int square)
+void Grid::ReDrawSquarePixels()
+{
+	ColorBuffer->ChangeData(SquareColors, TotalSquares * sizeof(Vectors::Vector3));
+}
+
+
+
+Point Grid::ConvertIntToPoint(int square)
 {
 	Point p;
 	p.X = square % SquareCountPerRow;
 	p.Y = square / SquareCountPerRow;
 
 	return p;
+}
+
+int Grid::ConvertPointToInt(Point square)
+{
+	return (square.Y * SquareCountPerRow + square.X);
 }

@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 #include "Mono/Mono.h"
 #include "Mono/CommonData/Vectors.h"
+#include "Mono/CommonData/Point.h"
 
 //Defines the bounds (top-left corner and bottom-right corner) of the square
 struct SquareBounds
@@ -14,19 +15,13 @@ struct SquareBounds
 	Vectors::Vector2 Pos2;
 };
 
-struct Point
-{
-	int X;
-	int Y;
-};
-
 class Grid
 {
 private:
 	//Every square location (boundaries) are stored here in 2x glm::vec2
 	SquareBounds* SquareLocations;
 	//Every square's color
-	Vector3* SquareColors;
+	Vectors::Vector3* SquareColors;
 	VertexBuffer* ColorBuffer;
 	//Amount of squares in a row
 	int SquareCountPerRow;
@@ -46,15 +41,18 @@ public:
 	//Returns array with square cords. that fills the canvas. Call delete[] on returned array !
 	Vectors::Vector2* GenerateOffsetArray(Vectors::Vector2* baseSquare);
 	//
-	void GenerateColorsArray(Vector3 color);
+	void GenerateColorsArray(Vectors::Vector3 color);
 	//Returns the clicked square
 	int GetSquareByPosition(double mouseX, double mouseY);
 
 	VertexArray GenerateGrid(Vectors::Vector3 squareColors = Vectors::Vector3(0.4f, 0.1f, 1.0f));
 
-	void ChangeSquareColor(int square, Vector3 color);
+	void ChangeSquareColor(int square, Vectors::Vector3 color);
+	void ReDrawSquarePixels();
 
 	//Converts one dimension square location to two
-	Point ConvertToPoint(int square);
+	Point ConvertIntToPoint(int square);
+
+	int ConvertPointToInt(Point square);
 };
 

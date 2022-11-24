@@ -1,24 +1,30 @@
 ﻿using Pathfinding.AStar;
-using PathfindingAlgorithms.Algorithms.Model;
 using System;
 
 namespace PathfindingAlgorithms.CommonData
 {
     public class Vectors
     {
-        public class Vector3
+        public struct Vector3
         {
             public float X;
             public float Y;
             public float Z;
+
+            public Vector3(float x, float y, float z)
+            {
+                X = x;
+                Y = y;
+                Z = z;
+            }
         }
 
-        public class Vector2 : ICoordinate
+        public struct Vector2
         {
-            public int X { get; set; }
-            public int Y { get; set; }
+            public float X { get; set; }
+            public float Y { get; set; }
 
-            public Vector2(int x, int y)
+            public Vector2(float x, float y)
             {
                 X = x;
                 Y = y;

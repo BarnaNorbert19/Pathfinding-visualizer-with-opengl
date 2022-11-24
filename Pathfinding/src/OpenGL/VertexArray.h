@@ -1,6 +1,6 @@
 #ifndef VertexArray_CLASS_H
 #define VertexArray_CLASS_H
-
+#pragma once
 #include "VertexBuffer.h"
 
 class VertexArray

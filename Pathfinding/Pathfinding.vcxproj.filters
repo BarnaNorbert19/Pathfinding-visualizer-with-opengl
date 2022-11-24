@@ -10,6 +10,9 @@
     <Filter Include="src\Mono">
       <UniqueIdentifier>{F54E22CF-E11B-7DDA-0A35-6B82F660B268}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Mono\CommonData">
+      <UniqueIdentifier>{C7CA694B-332C-4759-BC99-8D0B28FA7D18}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\OpenGL">
       <UniqueIdentifier>{C15FA925-AD17-EB72-161F-C4CE02F68563}</UniqueIdentifier>
     </Filter>
@@ -36,6 +39,12 @@
     <ClInclude Include="src\Grid.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mono\CommonData\Point.h">
+      <Filter>src\Mono\CommonData</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mono\CommonData\Vectors.h">
+      <Filter>src\Mono\CommonData</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mono\Mono.h">
       <Filter>src\Mono</Filter>
     </ClInclude>
@@ -54,7 +63,6 @@
     <ClInclude Include="src\OpenGL\VertexBuffer.h">
       <Filter>src\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mono\CommonData\Vectors.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entry.cpp">
@@ -90,6 +98,8 @@
     <ClCompile Include="vendor\GLAD-2.0\src\glad.c">
       <Filter>vendor\GLAD-2.0\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mono\CommonData\Vectors.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\PathfindingAlgorithms\PathfindingAlgorithms.csproj" />
   </ItemGroup>
 </Project>

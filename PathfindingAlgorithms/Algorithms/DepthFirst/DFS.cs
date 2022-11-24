@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using Draw = System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
 using System;
-using PathfindingAlgorithms.Algorithms.Model;
 using PathfindingAlgorithms.CommonData;
+using System.Drawing;
 
 namespace Pathfinding.DepthFirst
 {
@@ -15,10 +14,8 @@ namespace Pathfinding.DepthFirst
         public override IEnumerable<INode> UnvisitedNodes { get; set; }
         public override IEnumerable<INode> VisitedNodes { get; set; }
 
-        public async override Task<IEnumerable<INode>> FindPathDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public override IEnumerable<INode> FindPathDiagonal(GridInfo meshInfo)
         {
-            timer.Start();
-
             List<DFSNode> visited = new List<DFSNode>();
             Stack<DFSNode> unvisited = new Stack<DFSNode>();
 
@@ -35,10 +32,7 @@ namespace Pathfinding.DepthFirst
                     return CalculatePath(cur_node);
                 }
 
-                timer.Stop();
-
-                timer.Start();
-                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<DFSNode>();
+                var neighbours = GetNeighboursDiagonal(meshInfo.HorizontalLength - 1, meshInfo.VerticalLength - 1, cur_node, meshInfo.End).Cast<DFSNode>();
 
                 foreach (var neighbour in neighbours)
                 {
@@ -52,28 +46,16 @@ namespace Pathfinding.DepthFirst
                         continue;
 
                     unvisited.Push(neighbour);
-                    timer.Stop();
-                    await Task.Run(() => UnvisitedPathChanged(neighbour), cToken);
-                    timer.Start();
                 }
 
                 visited.Add(cur_node);
-
-                timer.Stop();
-                await Task.Run(() => VisitedPathChanged(cur_node), cToken);
-
-                await Task.Delay(delay, cToken);
-
-                timer.Start();
             }
 
             return null;
         }
 
-        public async override Task<IEnumerable<INode>> FindPathNoDiagonal(Stopwatch timer, GridInfo meshInfo, int delay, Action<INode> UnvisitedPathChanged, Action<INode> VisitedPathChanged, CancellationToken cToken)
+        public override IEnumerable<INode> FindPathNoDiagonal(GridInfo meshInfo)
         {
-            timer.Start();
-
             List<DFSNode> visited = new List<DFSNode>();
             Stack<DFSNode> unvisited = new Stack<DFSNode>();
 
@@ -90,7 +72,7 @@ namespace Pathfinding.DepthFirst
                     return CalculatePath(cur_node);
                 }
 
-                var neighbours = GetNeighbours(meshInfo.HorizontalLenght - 1, meshInfo.VerticalLenght - 1, cur_node, meshInfo.End).Cast<DFSNode>();
+                var neighbours = GetNeighbours(meshInfo.HorizontalLength - 1, meshInfo.VerticalLength - 1, cur_node, meshInfo.End).Cast<DFSNode>();
 
                 foreach (var neighbour in neighbours)
                 {
@@ -104,26 +86,16 @@ namespace Pathfinding.DepthFirst
                         continue;
 
                     unvisited.Push(neighbour);
-                    timer.Stop();
-                    await Task.Run(() => UnvisitedPathChanged(neighbour), cToken);
-                    timer.Start();
                 }
 
 
                 visited.Add(cur_node);
-
-                timer.Stop();
-                await Task.Run(() => VisitedPathChanged(cur_node), cToken);
-
-                await Task.Delay(delay, cToken);
-
-                timer.Start();
             }
 
             return null;
         }
 
-        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode main_node, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighbours(int horizontallenght, int verticallenght, INode main_node, Point end)
         {
             List<DFSNode> result = new List<DFSNode>();
             //Define grid bounds
@@ -135,14 +107,14 @@ namespace Pathfinding.DepthFirst
             for (int i = rowMinimum; i <= rowMaximum; i++)
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                 {
-                    ICoordinate cur_point = new Vectors.Vector2(i, j);
+                    Point cur_point = new Point(i, j);
                     if ((i != main_node.Coord.X || j != main_node.Coord.Y) && (main_node.Coord.X == cur_point.X || main_node.Coord.Y == cur_point.Y))
                         result.Add(new DFSNode(cur_point, main_node));
                 }
             return result;
         }
 
-        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode main_node, ICoordinate end)
+        protected override IEnumerable<INode> GetNeighboursDiagonal(int horizontallenght, int verticallenght, INode main_node, Point end)
         {
             List<DFSNode> result = new List<DFSNode>();
             //Define grid bounds
@@ -155,7 +127,7 @@ namespace Pathfinding.DepthFirst
                 for (int j = columnMinimum; j <= columnMaximum; j++)
                     if (i != main_node.Coord.X || j != main_node.Coord.Y)
                     {
-                        var cur_point = new Vectors.Vector2(i, j);
+                        var cur_point = new Point(i, j);
                         result.Add(new DFSNode(cur_point, main_node));
                     }
             return result;
