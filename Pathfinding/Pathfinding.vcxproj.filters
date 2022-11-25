@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{61705900-4DFC-870B-B6AA-880BA255880B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
@@ -63,6 +66,13 @@
     <ClInclude Include="src\OpenGL\VertexBuffer.h">
       <Filter>src\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="vendor\IMGUI-1.89\imconfig.h" />
+    <ClInclude Include="vendor\IMGUI-1.89\imgui.h" />
+    <ClInclude Include="vendor\IMGUI-1.89\imgui_internal.h" />
+    <ClInclude Include="vendor\IMGUI-1.89\imstb_rectpack.h" />
+    <ClInclude Include="vendor\IMGUI-1.89\imstb_textedit.h" />
+    <ClInclude Include="vendor\IMGUI-1.89\imstb_truetype.h" />
+    <ClInclude Include="vendor\IMGUI-1.89\imgui_impl_glfw.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entry.cpp">
@@ -98,8 +108,14 @@
     <ClCompile Include="vendor\GLAD-2.0\src\glad.c">
       <Filter>vendor\GLAD-2.0\src</Filter>
     </ClCompile>
+    <ClCompile Include="vendor\IMGUI-1.89\imgui.cpp" />
+    <ClCompile Include="vendor\IMGUI-1.89\imgui_demo.cpp" />
+    <ClCompile Include="vendor\IMGUI-1.89\imgui_draw.cpp" />
+    <ClCompile Include="vendor\IMGUI-1.89\imgui_impl_glfw.cpp" />
+    <ClCompile Include="vendor\IMGUI-1.89\imgui_widgets.cpp" />
+    <ClCompile Include="vendor\IMGUI-1.89\imgui_tables.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\PathfindingAlgorithms\PathfindingAlgorithms.csproj" />
+    <Text Include="vendor\IMGUI-1.89\LICENSE.txt" />
   </ItemGroup>
 </Project>

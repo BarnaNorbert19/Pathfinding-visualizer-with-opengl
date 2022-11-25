@@ -5,10 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace PathfindingAlgorithms
 {
@@ -32,41 +29,43 @@ namespace PathfindingAlgorithms
                 ExternalCalls.ReDraw();
                 ClickCount++;
             }
-            
+
             else if (ClickCount == 1)
             {
                 _gridInfo.End = square;
                 ExternalCalls.ChangeColor(square, new Vectors.Vector3(0.840f, 0.0f, 0.0f));
                 ExternalCalls.ReDraw();
 
-                AStar aStar = new AStar();
-                IEnumerable<INode> test = null;
-                Thread t = new Thread(() => { test = aStar.FindPathDiagonal(_gridInfo); });
-                t.Start();
 
-                while (t.IsAlive)
-                {
-                    
-                }
-
-                var pointArray = new Point[test.Count()];
-
-                int a = 0;
-                foreach (var item in test)
-                {
-                    pointArray[a] = item.Coord;
-                    a++;
-                }
-
-                for (int i = 0; i < pointArray.Length; i++)
-                {
-                    ExternalCalls.ChangeColor(pointArray[i], new Vectors.Vector3(0.1f, 1.0f, 0.4f));
-                }
-
-                ExternalCalls.ReDraw();
+                PathFinding();
                 ClickCount++;
             }
 
+        }
+
+        private void PathFinding()
+        {
+            AStar aStar = new AStar();
+            List<INode> path = null;
+            Thread t = new Thread(() => { path = aStar.FindPathDiagonal(_gridInfo).ToList(); });
+            t.Start();
+
+            while (t.IsAlive)
+            {
+
+            }
+            path.RemoveAt(0);
+            path.RemoveAt(path.Count - 1);
+
+            foreach (var item in aStar.VisitedNodes)
+            {
+                ExternalCalls.ChangeColor(item.Coord, new Vectors.Vector3(0.840f, 0.826f, 0.00f));
+            }
+
+            for (int i = 0; i < path.Count; i++)
+                ExternalCalls.ChangeColor(path[i].Coord, new Vectors.Vector3(0.0723f, 0.620f, 0.00f));
+
+            ExternalCalls.ReDraw();
         }
     }
 }

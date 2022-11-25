@@ -26,14 +26,23 @@ project "Pathfinding"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
-        "%{prj.name}/vendor/GLAD-2.0/src/glad.c"
+        "%{prj.name}/vendor/GLAD-2.0/src/glad.c",
+        "imconfig.h",
+        "imgui.h",
+        "imgui_draw.cpp",
+        "imgui_internal.h",
+        "imgui_widgets.cpp",
+        "imstb_textedit.h",
+        "imstb_truetype.h",
+        "imgui_demo.cpp"
     }
 
     includedirs
     {
         "%{prj.name}/vendor/GLFW-3.3.8/include",
         "%{prj.name}/vendor/GLAD-2.0/include",
-        "%{prj.name}/vendor/mono/include"
+        "%{prj.name}/vendor/mono/include",
+        "%{prj.name}/vendor/IMGUI-1.89"
     }
     
     libdirs 
@@ -67,3 +76,6 @@ project "Pathfinding"
             "xcopy \"$(SolutionDir)Pathfinding\\vendor\\mono\\bin\\mono-2.0-sgen.dll\" \"$(TargetDir)\" /y"
             --"xcopy \"$(SolutionDir)Pathfinding\\vendor\\mono\\bin\\MonoPosixHelper.dll\" \"$(TargetDir)\" /y"
         }
+    
+    filter {"system:windows", "configurations:Release"}
+        buildoptions "/MT"

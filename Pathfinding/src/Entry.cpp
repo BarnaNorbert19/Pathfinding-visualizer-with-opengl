@@ -3,6 +3,8 @@
 #include "GLFWSteps.h"
 #include "Mono/Mono.h"
 #include "Events/Events.h"
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
 
 #define SCREEN_WIDTH 960
 #define SCREEN_HEIGHT 720
@@ -18,6 +20,14 @@ int main(void)
 
 	Mono mono = Mono("vendor/mono/lib", "\\vendor", "PathfindingAlgorithms");
 	mono.LoadCSharpAssembly("PathfindingAlgorithms/bin/Debug/PathfindingAlgorithms.dll");
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	(void)io;
+	ImGui_ImplGlfw_InitForOpenGL(GLFWSteps::WindowPointer, true);
+	ImGui::StyleColorsDark();
+
+	ImGui::BeginMainMenuBar();
+	ImGui::EndMainMenuBar();
 
 	{
 		Grid grid = Grid(SQUARE_COUNT);
@@ -34,6 +44,9 @@ int main(void)
 
 		GLFWSteps::WindowLoop(&vao, &grid);
 	}
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
 	GLFWSteps::CleanUp();
 
 	return 0;
