@@ -1,11 +1,7 @@
 #pragma once
+#include "Mono/CommonData/Vectors.h"
 #include "OpenGL/VertexBuffer.h"
 #include "OpenGL/VertexArray.h"
-#include "OpenGL/IndexBuffer.h"
-#include "OpenGL/Shaders/Shaders.h"
-#include <GLFW/glfw3.h>
-#include "Mono/Mono.h"
-#include "Mono/CommonData/Vectors.h"
 #include "Mono/CommonData/Point.h"
 
 //Defines the bounds (top-left corner and bottom-right corner) of the square

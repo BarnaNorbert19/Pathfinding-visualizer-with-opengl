@@ -1,8 +1,7 @@
 #pragma once
-#include "../Mono/Mono.h"
 #include "../Grid.h"
-#include "../Mono/CommonData/Point.h"
 #include "../GLFWSteps.h"
+#include "../Mono/Mono.h"
 
 struct SquareClickEventArgs
 {

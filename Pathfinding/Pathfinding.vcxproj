@@ -139,6 +139,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ImGui\imgui_impl_glfw.h" />
+    <ClInclude Include="src\ImGui\ImGuiInit.h" />
     <ClInclude Include="src\Events\Events.h" />
     <ClInclude Include="src\GLFWSteps.h" />
     <ClInclude Include="src\Grid.h" />
@@ -152,13 +154,16 @@
     <ClInclude Include="src\OpenGL\VertexBuffer.h" />
     <ClInclude Include="vendor\IMGUI-1.89\imconfig.h" />
     <ClInclude Include="vendor\IMGUI-1.89\imgui.h" />
-    <ClInclude Include="vendor\IMGUI-1.89\imgui_impl_glfw.h" />
+    <ClInclude Include="src\ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\ImGui\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="vendor\IMGUI-1.89\imgui_internal.h" />
     <ClInclude Include="vendor\IMGUI-1.89\imstb_rectpack.h" />
     <ClInclude Include="vendor\IMGUI-1.89\imstb_textedit.h" />
     <ClInclude Include="vendor\IMGUI-1.89\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ImGui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiInit.cpp" />
     <ClCompile Include="src\Entry.cpp" />
     <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\GLFWSteps.cpp" />
@@ -173,7 +178,7 @@
     <ClCompile Include="vendor\IMGUI-1.89\imgui.cpp" />
     <ClCompile Include="vendor\IMGUI-1.89\imgui_demo.cpp" />
     <ClCompile Include="vendor\IMGUI-1.89\imgui_draw.cpp" />
-    <ClCompile Include="vendor\IMGUI-1.89\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\ImGui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="vendor\IMGUI-1.89\imgui_tables.cpp" />
     <ClCompile Include="vendor\IMGUI-1.89\imgui_widgets.cpp" />
   </ItemGroup>

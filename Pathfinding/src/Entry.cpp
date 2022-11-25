@@ -1,15 +1,13 @@
 #pragma once
-
 #include "GLFWSteps.h"
 #include "Mono/Mono.h"
+#include "Grid.h"
+#include <GLFW/glfw3.h>
 #include "Events/Events.h"
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
 
 #define SCREEN_WIDTH 960
 #define SCREEN_HEIGHT 720
 #define SQUARE_COUNT 30
-
 
 int main(void)
 {
@@ -20,14 +18,9 @@ int main(void)
 
 	Mono mono = Mono("vendor/mono/lib", "\\vendor", "PathfindingAlgorithms");
 	mono.LoadCSharpAssembly("PathfindingAlgorithms/bin/Debug/PathfindingAlgorithms.dll");
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	(void)io;
-	ImGui_ImplGlfw_InitForOpenGL(GLFWSteps::WindowPointer, true);
-	ImGui::StyleColorsDark();
-
-	ImGui::BeginMainMenuBar();
-	ImGui::EndMainMenuBar();
+	
+	ImGuiInit imgui = ImGuiInit();
+	
 
 	{
 		Grid grid = Grid(SQUARE_COUNT);
@@ -42,10 +35,8 @@ int main(void)
 		glfwSetWindowUserPointer(GLFWSteps::WindowPointer, &args);
 		glfwSetMouseButtonCallback(GLFWSteps::WindowPointer, Events::OnSquareClick);
 
-		GLFWSteps::WindowLoop(&vao, &grid);
+		GLFWSteps::WindowLoop(&vao, &grid, &imgui);
 	}
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
 
 	GLFWSteps::CleanUp();
 

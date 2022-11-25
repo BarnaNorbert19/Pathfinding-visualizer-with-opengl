@@ -1,11 +1,8 @@
 #pragma once
-#include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
+#include <mono/jit/jit.h>
 #include <string>
-#include <fstream>
 #include <iostream>
-#include <filesystem>
-#include "CommonData/Point.h"
 
 class Mono
 {

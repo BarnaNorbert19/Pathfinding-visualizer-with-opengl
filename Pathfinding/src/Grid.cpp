@@ -1,5 +1,6 @@
 #include "Grid.h"
-
+#include "OpenGL/IndexBuffer.h"
+#include "OpenGL/Shaders/Shaders.h"
 
 
 void Grid::SaveSquareLocations(Vectors::Vector2* original, Vectors::Vector2* offsets)

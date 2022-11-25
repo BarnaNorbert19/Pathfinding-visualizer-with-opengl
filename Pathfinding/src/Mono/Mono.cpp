@@ -1,5 +1,9 @@
 #include "Mono.h"
 #include "../Events/Events.h"
+#include <fstream>
+#include <iostream>
+#include <filesystem>
+
 
 char* Mono::ReadBytes(const std::string& filepath, uint32_t* outSize)
 {

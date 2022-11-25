@@ -1,4 +1,6 @@
 #include "Events.h"
+#include "../ImGui/imgui_impl_glfw.h"
+#include "../Mono/CommonData/Point.h"
 
 
 void Events::OnSquareClick(GLFWwindow* window, int button, int action, int mods)
@@ -26,6 +28,8 @@ void Events::OnSquareClick(GLFWwindow* window, int button, int action, int mods)
 		MonoObject* klass = args->MonoObj->InstantiateClass("PathfindingAlgorithms", "Events");
 		args->MonoObj->CallMethod(klass, "OnSquareClicked", square2d);
 	}
+
+	ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
 }
 
 void Events::ChangeColor(Point square, Vectors::Vector3 color)
