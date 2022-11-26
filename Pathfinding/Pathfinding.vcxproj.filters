@@ -10,6 +10,9 @@
     <Filter Include="src\Events">
       <UniqueIdentifier>{7162C20E-5D1A-045C-C621-DDB7B2F89E4C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ImGui">
+      <UniqueIdentifier>{170E22B3-8378-D629-CCB6-87CF3860B47E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Mono">
       <UniqueIdentifier>{F54E22CF-E11B-7DDA-0A35-6B82F660B268}</UniqueIdentifier>
     </Filter>
@@ -33,6 +36,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\imconfig.h">
+      <Filter>..</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui.h">
+      <Filter>..</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui_internal.h">
+      <Filter>..</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imstb_textedit.h">
+      <Filter>..</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imstb_truetype.h">
+      <Filter>..</Filter>
+    </ClInclude>
     <ClInclude Include="src\Events\Events.h">
       <Filter>src\Events</Filter>
     </ClInclude>
@@ -41,6 +59,18 @@
     </ClInclude>
     <ClInclude Include="src\Grid.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiInit.h">
+      <Filter>src\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\imgui_impl_glfw.h">
+      <Filter>src\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\imgui_impl_opengl3.h">
+      <Filter>src\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\imgui_impl_opengl3_loader.h">
+      <Filter>src\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\Mono\CommonData\Point.h">
       <Filter>src\Mono\CommonData</Filter>
@@ -66,18 +96,17 @@
     <ClInclude Include="src\OpenGL\VertexBuffer.h">
       <Filter>src\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\IMGUI-1.89\imconfig.h" />
-    <ClInclude Include="vendor\IMGUI-1.89\imgui.h" />
-    <ClInclude Include="vendor\IMGUI-1.89\imgui_internal.h" />
-    <ClInclude Include="vendor\IMGUI-1.89\imstb_rectpack.h" />
-    <ClInclude Include="vendor\IMGUI-1.89\imstb_textedit.h" />
-    <ClInclude Include="vendor\IMGUI-1.89\imstb_truetype.h" />
-    <ClInclude Include="src\ImGui\ImGuiInit.h" />
-    <ClInclude Include="src\ImGui\imgui_impl_glfw.h" />
-    <ClInclude Include="src\ImGui\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="src\ImGui\imgui_impl_opengl3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\imgui_demo.cpp">
+      <Filter>..</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui_draw.cpp">
+      <Filter>..</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui_widgets.cpp">
+      <Filter>..</Filter>
+    </ClCompile>
     <ClCompile Include="src\Entry.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -89,6 +118,15 @@
     </ClCompile>
     <ClCompile Include="src\Grid.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\ImGuiInit.cpp">
+      <Filter>src\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\imgui_impl_glfw.cpp">
+      <Filter>src\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\imgui_impl_opengl3.cpp">
+      <Filter>src\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Mono\Mono.cpp">
       <Filter>src\Mono</Filter>
@@ -111,16 +149,5 @@
     <ClCompile Include="vendor\GLAD-2.0\src\glad.c">
       <Filter>vendor\GLAD-2.0\src</Filter>
     </ClCompile>
-    <ClCompile Include="vendor\IMGUI-1.89\imgui.cpp" />
-    <ClCompile Include="vendor\IMGUI-1.89\imgui_demo.cpp" />
-    <ClCompile Include="vendor\IMGUI-1.89\imgui_draw.cpp" />
-    <ClCompile Include="vendor\IMGUI-1.89\imgui_widgets.cpp" />
-    <ClCompile Include="vendor\IMGUI-1.89\imgui_tables.cpp" />
-    <ClCompile Include="src\ImGui\ImGuiInit.cpp" />
-    <ClCompile Include="src\ImGui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\ImGui\imgui_impl_opengl3.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="vendor\IMGUI-1.89\LICENSE.txt" />
   </ItemGroup>
 </Project>

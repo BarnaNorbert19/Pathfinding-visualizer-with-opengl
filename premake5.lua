@@ -79,3 +79,16 @@ project "Pathfinding"
     
     filter {"system:windows", "configurations:Release"}
         buildoptions "/MT"
+    
+    
+project "PathfindingAlgorithms"
+    location "PathfindingAlgorithms"
+    kind "SharedLib"
+    language "C#"
+    dotnetframework ("4.7.2")
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+
+    files
+    {
+        "%{prj.name}/**.cs"
+    }
