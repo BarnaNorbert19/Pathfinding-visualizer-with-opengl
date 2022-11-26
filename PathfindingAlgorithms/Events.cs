@@ -1,11 +1,12 @@
 ﻿using Pathfinding;
 using Pathfinding.AStar;
+using Pathfinding.BreadthFirst;
+using Pathfinding.DepthFirst;
+using Pathfinding.Dijkstra;
 using PathfindingAlgorithms.CommonData;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace PathfindingAlgorithms
 {
@@ -14,7 +15,7 @@ namespace PathfindingAlgorithms
         public static int ClickCount { get; private set; }
         private static GridInfo _gridInfo = new GridInfo(new List<Point>(), 30, 30);
 
-        public void OnSquareClicked(Point square, bool shiftState)
+        public void OnSquareClicked(Point square, bool shiftState, AlgoType algoType)
         {
             if (ClickCount >= 2)
             {
@@ -48,19 +49,51 @@ namespace PathfindingAlgorithms
                 ExternalCalls.ReDraw();
 
 
-                PathFinding();
+                PathFinding(algoType);
                 ClickCount++;
             }
 
         }
 
-        private void PathFinding()
+        private void PathFinding(AlgoType type)
         {
-            AStar aStar = new AStar();
-            List<INode> path = null;
-            path = aStar.FindPathDiagonal(_gridInfo).ToList();
-            
-            RecolorVisitedNodes(aStar);
+            List<INode> path;
+            PathfindingBase algoArgs;
+            switch (type)
+            {
+                case AlgoType.AStar:
+                    {
+                        algoArgs = new AStar();
+                        path = algoArgs.FindPathDiagonal(_gridInfo).ToList();
+                        break;
+                    }
+                case AlgoType.Dijkstra:
+                    {
+                        algoArgs = new Dijkstra();
+                        path = algoArgs.FindPathDiagonal(_gridInfo).ToList();
+                        break;
+                    }
+                case AlgoType.DepthFirst:
+                    {
+                        algoArgs = new DFS();
+                        path = algoArgs.FindPathDiagonal(_gridInfo).ToList();
+                        break;
+                    }
+                case AlgoType.BreadthFirst:
+                    {
+                        algoArgs = new BFS();
+                        path = algoArgs.FindPathDiagonal(_gridInfo).ToList();
+                        break;
+                    }
+                default:
+                    {
+                        algoArgs = new AStar();
+                        path = algoArgs.FindPathDiagonal(_gridInfo).ToList();
+                    }
+                    break;
+            }
+
+            RecolorVisitedNodes(algoArgs);
             RecolorPath(path);
 
             ExternalCalls.ReDraw();
@@ -70,7 +103,6 @@ namespace PathfindingAlgorithms
         {
             //Don't need to remove end since it can never be part of VisitedNodes
             var visitedNodesFiltered = visitedNodes.VisitedNodes.Where(s => s.Coord != _gridInfo.Start);
-
             //Recolor squares
             foreach (var item in visitedNodesFiltered)
             {

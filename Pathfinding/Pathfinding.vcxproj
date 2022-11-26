@@ -146,6 +146,7 @@
     <ClInclude Include="src\ImGui\imgui_impl_glfw.h" />
     <ClInclude Include="src\ImGui\imgui_impl_opengl3.h" />
     <ClInclude Include="src\ImGui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\Mono\CommonData\AlgoType.h" />
     <ClInclude Include="src\Mono\CommonData\Point.h" />
     <ClInclude Include="src\Mono\CommonData\Vectors.h" />
     <ClInclude Include="src\Mono\Mono.h" />

@@ -59,6 +59,27 @@ void ImGuiInit::SetupMenuBar()
 			{
 				Events::ResetGrid();
 			}
+			if (ImGui::BeginMenu("Algorithms"))
+			{
+				if (ImGui::MenuItem("AStar"))
+				{
+					Events::SelectedType = AlgoType::AStar;
+				}
+				if (ImGui::MenuItem("Dijkstra"))
+				{
+					Events::SelectedType = AlgoType::Dijkstra;
+				}
+				if (ImGui::MenuItem("DepthFirst"))
+				{
+					Events::SelectedType = AlgoType::DepthFirst;
+				}
+				if (ImGui::MenuItem("BreadthFirst"))
+				{
+					Events::SelectedType = AlgoType::BreadthFirstm;
+				}
+				ImGui::EndMenu();
+			}
+
 			ImGui::Separator();
 			if (ImGui::MenuItem("Exit")) 
 			{

@@ -99,6 +99,7 @@
     <ClInclude Include="vendor\IMGUI-1.89.1\imstb_truetype.h">
       <Filter>vendor\IMGUI-1.89.1</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mono\CommonData\AlgoType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entry.cpp">
