@@ -27,14 +27,8 @@ project "Pathfinding"
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/GLAD-2.0/src/glad.c",
-        "imconfig.h",
-        "imgui.h",
-        "imgui_draw.cpp",
-        "imgui_internal.h",
-        "imgui_widgets.cpp",
-        "imstb_textedit.h",
-        "imstb_truetype.h",
-        "imgui_demo.cpp"
+        "%{prj.name}/vendor/IMGUI-1.89.1/**.cpp",
+        "%{prj.name}/vendor/IMGUI-1.89.1/**.h"
     }
 
     includedirs
@@ -42,7 +36,7 @@ project "Pathfinding"
         "%{prj.name}/vendor/GLFW-3.3.8/include",
         "%{prj.name}/vendor/GLAD-2.0/include",
         "%{prj.name}/vendor/mono/include",
-        "%{prj.name}/vendor/IMGUI-1.89"
+        "%{prj.name}/vendor/IMGUI-1.89.1"
     }
     
     libdirs 
@@ -85,10 +79,11 @@ project "PathfindingAlgorithms"
     location "PathfindingAlgorithms"
     kind "SharedLib"
     language "C#"
-    dotnetframework ("4.7.2")
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 
     files
     {
         "%{prj.name}/**.cs"
     }
+
+    links { "System.Drawing", "System" }

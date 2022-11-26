@@ -1,7 +1,6 @@
 ﻿using Pathfinding;
 using Pathfinding.AStar;
 using PathfindingAlgorithms.CommonData;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -14,15 +13,23 @@ namespace PathfindingAlgorithms
         public static int ClickCount { get; private set; }
         private static GridInfo _gridInfo = new GridInfo(new List<Point>(), 30, 30);
 
-        public void OnSquareClicked(Point square)
+        public void OnSquareClicked(Point square, bool shiftState)
         {
             if (ClickCount >= 2)
             {
                 ExternalCalls.ResetGrid();
+                _gridInfo = new GridInfo(new List<Point>(), 30, 30);
                 ClickCount = 0;
             }
 
-            if (ClickCount == 0)
+            if (shiftState)
+            {
+                _gridInfo.UnwalkablePos.Add(square);
+                ExternalCalls.ChangeColor(square, new Vectors.Vector3(0.0f, 0.0f, 0.0f));
+                ExternalCalls.ReDraw();
+            }
+
+            else if (ClickCount == 0)
             {
                 _gridInfo.Start = square;
                 ExternalCalls.ChangeColor(square, new Vectors.Vector3(0.0f, 0.224f, 0.840f));

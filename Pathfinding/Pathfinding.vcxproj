@@ -78,7 +78,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\mono\include;vendor\IMGUI-1.89;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\mono\include;vendor\IMGUI-1.89.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -99,7 +99,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\mono\include;vendor\IMGUI-1.89;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\mono\include;vendor\IMGUI-1.89.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalOptions>/MT %(AdditionalOptions)</AdditionalOptions>
@@ -121,7 +121,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\mono\include;vendor\IMGUI-1.89;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\GLFW-3.3.8\include;vendor\GLAD-2.0\include;vendor\mono\include;vendor\IMGUI-1.89.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -139,11 +139,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\imconfig.h" />
-    <ClInclude Include="..\imgui.h" />
-    <ClInclude Include="..\imgui_internal.h" />
-    <ClInclude Include="..\imstb_textedit.h" />
-    <ClInclude Include="..\imstb_truetype.h" />
     <ClInclude Include="src\Events\Events.h" />
     <ClInclude Include="src\GLFWSteps.h" />
     <ClInclude Include="src\Grid.h" />
@@ -159,11 +154,14 @@
     <ClInclude Include="src\OpenGL\Shaders\Shaders.h" />
     <ClInclude Include="src\OpenGL\VertexArray.h" />
     <ClInclude Include="src\OpenGL\VertexBuffer.h" />
+    <ClInclude Include="vendor\IMGUI-1.89.1\imconfig.h" />
+    <ClInclude Include="vendor\IMGUI-1.89.1\imgui.h" />
+    <ClInclude Include="vendor\IMGUI-1.89.1\imgui_internal.h" />
+    <ClInclude Include="vendor\IMGUI-1.89.1\imstb_rectpack.h" />
+    <ClInclude Include="vendor\IMGUI-1.89.1\imstb_textedit.h" />
+    <ClInclude Include="vendor\IMGUI-1.89.1\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\imgui_demo.cpp" />
-    <ClCompile Include="..\imgui_draw.cpp" />
-    <ClCompile Include="..\imgui_widgets.cpp" />
     <ClCompile Include="src\Entry.cpp" />
     <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\GLFWSteps.cpp" />
@@ -178,6 +176,11 @@
     <ClCompile Include="src\OpenGL\VertexArray.cpp" />
     <ClCompile Include="src\OpenGL\VertexBuffer.cpp" />
     <ClCompile Include="vendor\GLAD-2.0\src\glad.c" />
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui.cpp" />
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui_demo.cpp" />
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui_draw.cpp" />
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui_tables.cpp" />
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui_widgets.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

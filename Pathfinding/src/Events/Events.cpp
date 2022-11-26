@@ -25,8 +25,15 @@ void Events::OnSquareClick(GLFWwindow* window, int button, int action, int mods)
 
 		Point square2d = args->GridObj->ConvertIntToPoint(square1d);
 		
+		bool shitState = false;
+
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		{
+			shitState = true;
+		}
+		
 		MonoObject* klass = args->MonoObj->InstantiateClass("PathfindingAlgorithms", "Events");
-		args->MonoObj->CallMethod(klass, "OnSquareClicked", square2d);
+		args->MonoObj->CallMethod(klass, "OnSquareClicked", square2d, shitState);
 	}
 
 	ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);

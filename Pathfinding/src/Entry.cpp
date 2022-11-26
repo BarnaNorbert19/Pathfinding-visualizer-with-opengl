@@ -11,13 +11,13 @@
 
 int main(void)
 {
-	GLFWSteps::CreateWindow("Test");
+	GLFWSteps::CreateWindow("Pathfinding", SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	if (GLFWSteps::WindowPointer == nullptr)
 		return -1;
 
 	Mono mono = Mono("vendor/mono/lib", "\\vendor", "PathfindingAlgorithms");
-	mono.LoadCSharpAssembly("PathfindingAlgorithms/bin/Debug/PathfindingAlgorithms.dll");
+	mono.LoadCSharpAssembly("bin/Debug-windows-x86_64/PathfindingAlgorithms/PathfindingAlgorithms.dll");
 	
 	ImGuiInit imgui = ImGuiInit();
 	

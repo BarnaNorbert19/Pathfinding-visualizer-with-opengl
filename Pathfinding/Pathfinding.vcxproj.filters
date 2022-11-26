@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="..">
-      <UniqueIdentifier>{61705900-4DFC-870B-B6AA-880BA255880B}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
@@ -34,23 +31,11 @@
     <Filter Include="vendor\GLAD-2.0\src">
       <UniqueIdentifier>{8EDC6068-FA3D-3E76-83AB-8428EF0B7535}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\IMGUI-1.89.1">
+      <UniqueIdentifier>{D9855681-45E7-338F-CE54-7A413AB56A4E}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\imconfig.h">
-      <Filter>..</Filter>
-    </ClInclude>
-    <ClInclude Include="..\imgui.h">
-      <Filter>..</Filter>
-    </ClInclude>
-    <ClInclude Include="..\imgui_internal.h">
-      <Filter>..</Filter>
-    </ClInclude>
-    <ClInclude Include="..\imstb_textedit.h">
-      <Filter>..</Filter>
-    </ClInclude>
-    <ClInclude Include="..\imstb_truetype.h">
-      <Filter>..</Filter>
-    </ClInclude>
     <ClInclude Include="src\Events\Events.h">
       <Filter>src\Events</Filter>
     </ClInclude>
@@ -96,17 +81,26 @@
     <ClInclude Include="src\OpenGL\VertexBuffer.h">
       <Filter>src\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="vendor\IMGUI-1.89.1\imconfig.h">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\IMGUI-1.89.1\imgui.h">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\IMGUI-1.89.1\imgui_internal.h">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\IMGUI-1.89.1\imstb_rectpack.h">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\IMGUI-1.89.1\imstb_textedit.h">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\IMGUI-1.89.1\imstb_truetype.h">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\imgui_demo.cpp">
-      <Filter>..</Filter>
-    </ClCompile>
-    <ClCompile Include="..\imgui_draw.cpp">
-      <Filter>..</Filter>
-    </ClCompile>
-    <ClCompile Include="..\imgui_widgets.cpp">
-      <Filter>..</Filter>
-    </ClCompile>
     <ClCompile Include="src\Entry.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -148,6 +142,21 @@
     </ClCompile>
     <ClCompile Include="vendor\GLAD-2.0\src\glad.c">
       <Filter>vendor\GLAD-2.0\src</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui.cpp">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui_demo.cpp">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui_draw.cpp">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui_tables.cpp">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\IMGUI-1.89.1\imgui_widgets.cpp">
+      <Filter>vendor\IMGUI-1.89.1</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

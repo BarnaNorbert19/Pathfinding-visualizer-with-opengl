@@ -20,11 +20,13 @@ void GLFWSteps::CreateWindow(const char* title, int windowWidth, int windowHeigh
 	}
 
 	glfwSetErrorCallback(ErrorCallBack);
+	
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+	
+	
 	/* Create a windowed mode window and its OpenGL context */
 	WindowPointer = glfwCreateWindow(windowWidth, windowHeight, title, NULL, NULL);
 	if (!WindowPointer)
@@ -33,6 +35,9 @@ void GLFWSteps::CreateWindow(const char* title, int windowWidth, int windowHeigh
 		CleanUp();
 		return;
 	}
+	
+	glfwSetInputMode(WindowPointer, GLFW_STICKY_KEYS, GLFW_FALSE);
+
 	printf("GLFW loaded, version: %s\n", glfwGetVersionString());
 	/* Make the window's context current */
 	glfwMakeContextCurrent(WindowPointer);
