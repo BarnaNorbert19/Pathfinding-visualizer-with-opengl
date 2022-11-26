@@ -1,6 +1,7 @@
 #include "Grid.h"
 #include "OpenGL/IndexBuffer.h"
 #include "OpenGL/Shaders/Shaders.h"
+#include "GLFWSteps.h"
 
 
 void Grid::SaveSquareLocations(Vectors::Vector2* original, Vectors::Vector2* offsets)
@@ -18,11 +19,16 @@ void Grid::SaveSquareLocations(Vectors::Vector2* original, Vectors::Vector2* off
 	}
 }
 
-Grid::Grid(int squareCount)
+Grid::Grid(int squareCount, float slideTopBy)
 {
+	SlideTopBy = 2.0f / slideTopBy / 2.0f;
 	SquareCountPerRow = squareCount;
-	NormalizedUnit = 2.0f / squareCount;
+	NormalizedUnitX = 2.0f / squareCount;
+	NormalizedUnitY = (2.0f - SlideTopBy) / squareCount;
 	TotalSquares = squareCount * squareCount;
+	ColorBuffer = NULL;
+	SquareColors = NULL;
+	SquareLocations = NULL;
 }
 
 Grid::~Grid()
@@ -34,13 +40,13 @@ Grid::~Grid()
 
 void Grid::GenerateBaseSquareArray(Vectors::Vector2(&squares)[4], float spacing)
 {
-	const float x = -1.0f + NormalizedUnit;
-	const float y = 1.0f - NormalizedUnit;
+	const float x = - 1.0f + NormalizedUnitX;
+	const float y = 1.0f - NormalizedUnitY;
 
-	squares[0] = Vectors::Vector2(-1.0f + spacing, 1.0f - spacing);
-	squares[1] = Vectors::Vector2(-1.0f + spacing, y);
-	squares[2] = Vectors::Vector2(x, y);
-	squares[3] = Vectors::Vector2(x, 1.0f - spacing);
+	squares[0] = Vectors::Vector2(- 1.0f + spacing, 1.0f - SlideTopBy - spacing);
+	squares[1] = Vectors::Vector2(- 1.0f + spacing, y - SlideTopBy);
+	squares[2] = Vectors::Vector2(x, y - SlideTopBy);
+	squares[3] = Vectors::Vector2(x, 1.0f - SlideTopBy - spacing);
 }
 
 Vectors::Vector2* Grid::GenerateOffsetArray(Vectors::Vector2* baseSquare)
@@ -53,7 +59,7 @@ Vectors::Vector2* Grid::GenerateOffsetArray(Vectors::Vector2* baseSquare)
 	{
 		if (i % SquareCountPerRow == 0)
 		{
-			temp.Y -= NormalizedUnit;
+			temp.Y -= NormalizedUnitY;
 			temp.X = 0.0f;
 
 			squares[i] = temp;
@@ -62,7 +68,7 @@ Vectors::Vector2* Grid::GenerateOffsetArray(Vectors::Vector2* baseSquare)
 		else
 		{
 
-			temp.X += NormalizedUnit;
+			temp.X += NormalizedUnitX;
 			squares[i] = temp;
 		}
 	}

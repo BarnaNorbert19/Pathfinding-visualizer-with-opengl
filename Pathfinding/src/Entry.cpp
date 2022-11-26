@@ -20,10 +20,11 @@ int main(void)
 	mono.LoadCSharpAssembly("bin/Debug-windows-x86_64/PathfindingAlgorithms/PathfindingAlgorithms.dll");
 	
 	ImGuiInit imgui = ImGuiInit();
-	
+	imgui.CreateFrame();
+	float height = imgui.MenuBarHeight();
 
 	{
-		Grid grid = Grid(SQUARE_COUNT);
+		Grid grid = Grid(SQUARE_COUNT, height);
 		VertexArray vao = grid.GenerateGrid();
 
 		SquareClickEventArgs args =

@@ -49,6 +49,11 @@ void ImGuiInit::Render()
 
 }
 
+float ImGuiInit::MenuBarHeight()
+{
+	return ImGui::GetFrameHeight();
+}
+
 void ImGuiInit::SetupMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())

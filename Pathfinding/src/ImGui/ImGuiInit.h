@@ -8,6 +8,7 @@ public:
 
 	void CreateFrame();
 	void Render();
+	float MenuBarHeight();
 
 private:
 	void SetupMenuBar();

@@ -17,8 +17,10 @@ namespace PathfindingAlgorithms
 
         public void OnSquareClicked(Point square, bool shiftState, AlgoType algoType)
         {
+            //if pathfinding already done -> clicked twice, hence there is some path on screen
             if (ClickCount >= 2)
             {
+                //reset screen and basic info
                 ExternalCalls.ResetGrid();
                 _gridInfo = new GridInfo(new List<Point>(), 30, 30);
                 ClickCount = 0;

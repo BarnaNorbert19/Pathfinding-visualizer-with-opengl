@@ -22,18 +22,20 @@ private:
 	//Amount of squares in a row
 	int SquareCountPerRow;
 	//Normalized square width and height in float
-	float NormalizedUnit;
+	float NormalizedUnitX;
+	float NormalizedUnitY;
 	//Saves the locations of every individual square and places them in SquareLocations
 	void SaveSquareLocations(Vectors::Vector2* original, Vectors::Vector2* offsets);
+	//Creates the base square, that will be copied. It is optional to use this method, using a manually made array is fine as well.
+	void GenerateBaseSquareArray(Vectors::Vector2(&squares)[4], float spacing = 0.009f);
+	float SlideTopBy;
 public:
 	int TotalSquares;
 
 
-	Grid(int squareCount);
+	Grid(int squareCount, float slideTopBy);
 	~Grid();
 
-	//Creates the base square, that will be copied. It is optional to use this method, using a manually made array is fine as well.
-	void GenerateBaseSquareArray(Vectors::Vector2(&squares)[4], float spacing = 0.01f);
 	//Returns array with square cords. that fills the canvas. Call delete[] on returned array !
 	Vectors::Vector2* GenerateOffsetArray(Vectors::Vector2* baseSquare);
 	//
