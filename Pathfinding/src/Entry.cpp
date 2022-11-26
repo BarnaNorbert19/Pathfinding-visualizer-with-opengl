@@ -38,7 +38,7 @@ int main(void)
 		GLFWSteps::WindowLoop(&vao, &grid, &imgui);
 	}
 
-	GLFWSteps::CleanUp();
+	//GLFWSteps::CleanUp(); this line is called in imgui destructor, calling it before imgui cleanup raises an error
 
 	return 0;
 }

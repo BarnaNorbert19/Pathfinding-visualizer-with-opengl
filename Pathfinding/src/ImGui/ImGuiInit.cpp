@@ -3,6 +3,7 @@
 #include "imgui_impl_glfw.h"
 #include <imgui.h>
 #include "imgui_impl_opengl3.h"
+#include "../Events/Events.h"
 
 ImGuiInit::ImGuiInit()
 {
@@ -26,6 +27,7 @@ ImGuiInit::~ImGuiInit()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+	GLFWSteps::CleanUp();
 }
 
 void ImGuiInit::CreateFrame()
@@ -53,11 +55,13 @@ void ImGuiInit::SetupMenuBar()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Clear")) {}
+			if (ImGui::MenuItem("Clear")) 
+			{
+				Events::ResetGrid();
+			}
 			ImGui::Separator();
 			if (ImGui::MenuItem("Exit")) 
 			{
-				GLFWSteps::CleanUp();
 				std::exit(0);
 			}
 			ImGui::EndMenu();
