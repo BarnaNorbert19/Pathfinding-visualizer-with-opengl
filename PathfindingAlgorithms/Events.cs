@@ -3,6 +3,7 @@ using Pathfinding.AStar;
 using PathfindingAlgorithms.CommonData;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -24,6 +25,9 @@ namespace PathfindingAlgorithms
 
             if (shiftState)
             {
+                if (square.X < 0 || square.Y < 0 || _gridInfo.UnwalkablePos.Contains(square))
+                    return;
+
                 _gridInfo.UnwalkablePos.Add(square);
                 ExternalCalls.ChangeColor(square, new Vectors.Vector3(0.0f, 0.0f, 0.0f));
                 ExternalCalls.ReDraw();
@@ -54,25 +58,35 @@ namespace PathfindingAlgorithms
         {
             AStar aStar = new AStar();
             List<INode> path = null;
-            Thread t = new Thread(() => { path = aStar.FindPathDiagonal(_gridInfo).ToList(); });
-            t.Start();
+            path = aStar.FindPathDiagonal(_gridInfo).ToList();
+            
+            RecolorVisitedNodes(aStar);
+            RecolorPath(path);
 
-            while (t.IsAlive)
-            {
+            ExternalCalls.ReDraw();
+        }
 
-            }
-            path.RemoveAt(0);
-            path.RemoveAt(path.Count - 1);
+        private void RecolorVisitedNodes(PathfindingBase visitedNodes)
+        {
+            //Don't need to remove end since it can never be part of VisitedNodes
+            var visitedNodesFiltered = visitedNodes.VisitedNodes.Where(s => s.Coord != _gridInfo.Start);
 
-            foreach (var item in aStar.VisitedNodes)
+            //Recolor squares
+            foreach (var item in visitedNodesFiltered)
             {
                 ExternalCalls.ChangeColor(item.Coord, new Vectors.Vector3(0.840f, 0.826f, 0.00f));
             }
+        }
 
+        private void RecolorPath(List<INode> path)
+        {
+            //Remove start and end points from the lists, so they won't be recolored
+            path.RemoveAt(0);
+            path.RemoveAt(path.Count - 1);
+
+            //Recolor squares
             for (int i = 0; i < path.Count; i++)
                 ExternalCalls.ChangeColor(path[i].Coord, new Vectors.Vector3(0.0723f, 0.620f, 0.00f));
-
-            ExternalCalls.ReDraw();
         }
     }
 }
