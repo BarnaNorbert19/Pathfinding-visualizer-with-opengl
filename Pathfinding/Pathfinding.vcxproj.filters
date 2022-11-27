@@ -57,6 +57,9 @@
     <ClInclude Include="src\ImGui\imgui_impl_opengl3_loader.h">
       <Filter>src\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mono\CommonData\AlgoType.h">
+      <Filter>src\Mono\CommonData</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mono\CommonData\Point.h">
       <Filter>src\Mono\CommonData</Filter>
     </ClInclude>
@@ -99,7 +102,6 @@
     <ClInclude Include="vendor\IMGUI-1.89.1\imstb_truetype.h">
       <Filter>vendor\IMGUI-1.89.1</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mono\CommonData\AlgoType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entry.cpp">

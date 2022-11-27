@@ -15,6 +15,7 @@ class Events
 public:
 	static void OnSquareClick(GLFWwindow* window, int button, int action, int mods);
 	static AlgoType SelectedType;
+	static bool KeepBlocks;
 	static void ChangeColor(Point square, Vectors::Vector3 color);//Internal call
 	static void ReDraw();//Internal call
 	static void ResetGrid();//Internal call

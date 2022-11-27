@@ -15,8 +15,11 @@ namespace PathfindingAlgorithms
         public static int ClickCount { get; private set; }
         private static GridInfo _gridInfo = new GridInfo(new List<Point>(), 30, 30);
 
-        public void OnSquareClicked(Point square, bool shiftState, AlgoType algoType)
+        public void OnSquareClicked(Point square, bool shiftState, AlgoType algoType, bool keepBlocks)
         {
+            if (square.X < 0 || square.Y < 0)
+                return;
+
             //if pathfinding already done -> clicked twice, hence there is some path on screen
             if (ClickCount >= 2)
             {
@@ -28,7 +31,7 @@ namespace PathfindingAlgorithms
 
             if (shiftState)
             {
-                if (square.X < 0 || square.Y < 0 || _gridInfo.UnwalkablePos.Contains(square))
+                if (_gridInfo.UnwalkablePos.Contains(square) || _gridInfo.Start == square || _gridInfo.End == square)
                     return;
 
                 _gridInfo.UnwalkablePos.Add(square);
@@ -44,7 +47,7 @@ namespace PathfindingAlgorithms
                 ClickCount++;
             }
 
-            else if (ClickCount == 1)
+            else if (ClickCount == 1 && _gridInfo.Start != square)
             {
                 _gridInfo.End = square;
                 ExternalCalls.ChangeColor(square, new Vectors.Vector3(0.840f, 0.0f, 0.0f));

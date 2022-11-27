@@ -58,7 +58,7 @@ void ImGuiInit::SetupMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
-		if (ImGui::BeginMenu("File"))
+		if (ImGui::BeginMenu("Settings"))
 		{
 			if (ImGui::MenuItem("Clear")) 
 			{
@@ -83,6 +83,11 @@ void ImGuiInit::SetupMenuBar()
 					Events::SelectedType = AlgoType::BreadthFirstm;
 				}
 				ImGui::EndMenu();
+			}
+
+			if (ImGui::Checkbox("Keep blocks", &Events::KeepBlocks))
+			{
+
 			}
 
 			ImGui::Separator();

@@ -4,6 +4,7 @@
 #include "../Mono/CommonData/Point.h"
 
 AlgoType Events::SelectedType = AlgoType::AStar;
+bool Events::KeepBlocks;
 
 void Events::OnSquareClick(GLFWwindow* window, int button, int action, int mods)
 {
@@ -35,7 +36,7 @@ void Events::OnSquareClick(GLFWwindow* window, int button, int action, int mods)
 		}
 		
 		MonoObject* klass = args->MonoObj->InstantiateClass("PathfindingAlgorithms", "Events");
-		args->MonoObj->CallMethod(klass, "OnSquareClicked", square2d, shitState, SelectedType);
+		args->MonoObj->CallMethod(klass, "OnSquareClicked", square2d, shitState, SelectedType, KeepBlocks);
 	}
 
 	ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
