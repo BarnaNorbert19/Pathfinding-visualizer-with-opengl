@@ -5,7 +5,7 @@ Pathfinding visualizer, GUI made with OpenGL (GLFW, GLAD). The actual pathfindin
 Really good opengl tutorial: https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2
 
 ## Premake5
-https://premake.github.io</br>Premake5 is project generator, very familiar to CMake (I just think it's better). Main difference is it uses LUA.
+https://premake.github.io</br>Premake5 is project generator, very similar to CMake (I just think it's better). Main difference is it uses LUA.
 
 ## GLFW
 https://www.glfw.org</br>A OpenGL library, handles window creation and inputs.
